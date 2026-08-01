@@ -9,252 +9,437 @@ import {
   FaChartBar,
   FaCog,
   FaSignOutAlt,
+  FaTimes
 } from "react-icons/fa";
+
 
 import "../styles/sidebar.css";
 
 
-function Sidebar() {
 
-  const navigate = useNavigate();
+function Sidebar({ sidebarOpen, setSidebarOpen }) {
 
 
-  const logout = () => {
+    const navigate = useNavigate();
 
-    localStorage.removeItem("token");
 
-    navigate("/");
 
-  };
+    const logout =()=>{
 
 
-  return (
+        localStorage.removeItem("token");
 
-    <div className="sidebar">
+        navigate("/");
 
 
-      <div className="logo">
+    };
 
-        <h2>
-          AttendEase
-        </h2>
 
-        <p>
-          College ERP
-        </p>
 
-      </div>
 
 
+    const closeSidebar=()=>{
 
+        setSidebarOpen(false);
 
-      <ul className="menu">
+    };
 
 
-        <li>
 
-          <NavLink
-            to="/dashboard"
-            className={({isActive}) =>
-              isActive ? "active" : ""
-            }
-          >
 
-            <FaTachometerAlt />
 
-            <span>
-              Dashboard
-            </span>
+    return(
 
-          </NavLink>
 
-        </li>
+        <>
 
 
+        {
+            sidebarOpen &&
 
+            <div
 
-        <li>
+            className="overlay"
 
-          <NavLink
-            to="/students"
-            className={({isActive}) =>
-              isActive ? "active" : ""
-            }
-          >
+            onClick={closeSidebar}
 
-            <FaUserGraduate />
+            ></div>
 
-            <span>
-              Students
-            </span>
+        }
 
-          </NavLink>
 
-        </li>
 
 
 
+        <div
 
-        <li>
+        className={
+            sidebarOpen
+            ?
+            "sidebar mobile-open"
+            :
+            "sidebar"
+        }
 
-          <NavLink
-            to="/attendance"
-            className={({isActive}) =>
-              isActive ? "active" : ""
-            }
-          >
 
-            <FaClipboardCheck />
+        >
 
-            <span>
-              Attendance
-            </span>
 
-          </NavLink>
 
-        </li>
 
 
+            <div className="mobile-close">
 
 
-        <li>
+                <button
 
-          <NavLink
-            to="/bulk-attendance"
-            className={({isActive}) =>
-              isActive ? "active" : ""
-            }
-          >
+                onClick={closeSidebar}
 
-            <FaClipboardCheck />
+                >
 
-            <span>
-              Bulk Attendance
-            </span>
+                    <FaTimes />
 
-          </NavLink>
+                </button>
 
-        </li>
 
+            </div>
 
 
 
 
-        <li>
 
-          <NavLink
-            to="/fees"
-            className={({isActive}) =>
-              isActive ? "active" : ""
-            }
-          >
 
-            <FaMoneyBillWave />
+            <div className="logo">
 
-            <span>
-              Fees
-            </span>
 
-          </NavLink>
+                <h2>
+                    Shree Home Tutuon Classes
+                </h2>
 
-        </li>
 
+                {/* <p>
+                    Home Tutuon Class
+                </p> */}
 
 
+            </div>
 
 
-        <li>
 
-          <NavLink
-            to="/holidays"
-            className={({isActive}) =>
-              isActive ? "active" : ""
-            }
-          >
 
-            <FaCalendarAlt />
 
-            <span>
-              Holidays
-            </span>
 
-          </NavLink>
 
-        </li>
 
+            <ul className="menu">
 
 
 
+                <li>
 
-        <li>
+                <NavLink
 
-          <NavLink
-            to="/reports"
-            className={({isActive}) =>
-              isActive ? "active" : ""
-            }
-          >
+                to="/dashboard"
 
-            <FaChartBar />
+                onClick={closeSidebar}
 
-            <span>
-              Reports
-            </span>
+                className={({isActive})=>
 
-          </NavLink>
+                    isActive ? "active" : ""
 
-        </li>
+                }
 
+                >
 
+                <FaTachometerAlt/>
 
+                <span>
+                    Dashboard
+                </span>
 
 
-        <li>
+                </NavLink>
 
-          <NavLink
-            to="/settings"
-            className={({isActive}) =>
-              isActive ? "active" : ""
-            }
-          >
+                </li>
 
-            <FaCog />
 
-            <span>
-              Settings
-            </span>
 
-          </NavLink>
 
-        </li>
 
 
-      </ul>
+                <li>
 
+                <NavLink
 
+                to="/students"
 
+                onClick={closeSidebar}
 
+                className={({isActive})=>
 
-      <button
-        className="logout-btn"
-        onClick={logout}
-      >
+                    isActive ? "active" : ""
 
-        <FaSignOutAlt />
+                }
 
-        <span>
-          Logout
-        </span>
+                >
 
-      </button>
+                <FaUserGraduate/>
 
+                <span>
+                    Students
+                </span>
 
 
-    </div>
+                </NavLink>
 
-  );
+                </li>
+
+
+
+
+
+
+
+
+                <li>
+
+                <NavLink
+
+                to="/attendance"
+
+                onClick={closeSidebar}
+
+                className={({isActive})=>
+
+                    isActive ? "active" : ""
+
+                }
+
+                >
+
+                <FaClipboardCheck/>
+
+                <span>
+                    Attendance
+                </span>
+
+
+                </NavLink>
+
+                </li>
+
+
+
+
+
+
+
+                <li>
+
+                <NavLink
+
+                to="/bulk-attendance"
+
+                onClick={closeSidebar}
+
+                className={({isActive})=>
+
+                    isActive ? "active" : ""
+
+                }
+
+                >
+
+                <FaClipboardCheck/>
+
+                <span>
+                    Bulk Attendance
+                </span>
+
+
+                </NavLink>
+
+                </li>
+
+
+
+
+
+
+
+                <li>
+
+                <NavLink
+
+                to="/fees"
+
+                onClick={closeSidebar}
+
+                className={({isActive})=>
+
+                    isActive ? "active" : ""
+
+                }
+
+                >
+
+                <FaMoneyBillWave/>
+
+                <span>
+                    Fees
+                </span>
+
+
+                </NavLink>
+
+                </li>
+
+
+
+
+
+
+
+                <li>
+
+                <NavLink
+
+                to="/holidays"
+
+                onClick={closeSidebar}
+
+                className={({isActive})=>
+
+                    isActive ? "active" : ""
+
+                }
+
+                >
+
+                <FaCalendarAlt/>
+
+                <span>
+                    Holidays
+                </span>
+
+
+                </NavLink>
+
+                </li>
+
+
+
+
+
+
+
+                <li>
+
+                <NavLink
+
+                to="/reports"
+
+                onClick={closeSidebar}
+
+                className={({isActive})=>
+
+                    isActive ? "active" : ""
+
+                }
+
+                >
+
+                <FaChartBar/>
+
+                <span>
+                    Reports
+                </span>
+
+
+                </NavLink>
+
+                </li>
+
+
+
+
+
+
+
+                <li>
+
+                <NavLink
+
+                to="/settings"
+
+                onClick={closeSidebar}
+
+                className={({isActive})=>
+
+                    isActive ? "active" : ""
+
+                }
+
+                >
+
+                <FaCog/>
+
+                <span>
+                    Settings
+                </span>
+
+
+                </NavLink>
+
+                </li>
+
+
+
+
+
+            </ul>
+
+
+
+
+
+
+
+
+            <button
+
+            className="logout-btn"
+
+            onClick={logout}
+
+            >
+
+                <FaSignOutAlt/>
+
+
+                <span>
+                    Logout
+                </span>
+
+
+            </button>
+
+
+
+
+
+
+        </div>
+
+
+        </>
+
+
+    );
+
 
 }
+
 
 
 export default Sidebar;
