@@ -1,0 +1,141 @@
+.attendance-container{
+
+    padding:30px;
+
+}
+
+
+.attendance-container h1{
+
+    margin-bottom:25px;
+
+    color:#1e293b;
+
+}
+
+
+
+.attendance-table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    background:white;
+
+    border-radius:12px;
+
+    overflow:hidden;
+
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+
+}
+
+
+
+.attendance-table th{
+
+    background:#2563eb;
+
+    color:white;
+
+    padding:15px;
+
+    text-align:left;
+
+}
+
+
+
+.attendance-table td{
+
+    padding:14px;
+
+    border-bottom:1px solid #e5e7eb;
+
+}
+
+
+
+
+.present-status{
+
+    background:#16a34a;
+
+    color:white;
+
+    padding:7px 15px;
+
+    border-radius:20px;
+
+    font-weight:bold;
+
+}
+
+
+
+.absent-status{
+
+    background:#dc2626;
+
+    color:white;
+
+    padding:7px 15px;
+
+    border-radius:20px;
+
+    font-weight:bold;
+
+}
+
+
+
+
+.delete-btn{
+
+    background:#ef4444;
+
+    color:white;
+
+    border:none;
+
+    padding:8px 15px;
+
+    border-radius:7px;
+
+    cursor:pointer;
+
+}
+
+
+
+.delete-btn:hover{
+
+    opacity:0.8;
+
+}
+
+
+
+
+
+@media(max-width:800px){
+
+
+    .attendance-container{
+
+        padding:15px;
+
+        overflow-x:auto;
+
+    }
+
+
+    .attendance-table{
+
+        min-width:800px;
+
+    }
+
+
+}

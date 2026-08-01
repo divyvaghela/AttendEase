@@ -1,0 +1,258 @@
+.bulk-container{
+
+    padding:30px;
+
+}
+
+
+.bulk-container h1{
+
+    margin-bottom:25px;
+
+    color:#1e293b;
+
+}
+
+
+
+
+
+.filters{
+
+    display:flex;
+
+    gap:15px;
+
+    flex-wrap:wrap;
+
+    margin-bottom:25px;
+
+}
+
+
+
+.filters input,
+.filters select{
+
+    padding:12px;
+
+    border-radius:8px;
+
+    border:1px solid #cbd5e1;
+
+    font-size:15px;
+
+}
+
+
+
+
+
+
+
+.action-buttons{
+
+    display:flex;
+
+    gap:15px;
+
+    margin-bottom:20px;
+
+}
+
+
+
+
+.present-btn{
+
+    background:#16a34a;
+
+    color:white;
+
+    border:none;
+
+    padding:12px 20px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    font-weight:bold;
+
+}
+
+
+
+.absent-btn{
+
+    background:#dc2626;
+
+    color:white;
+
+    border:none;
+
+    padding:12px 20px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    font-weight:bold;
+
+}
+
+
+
+
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    background:white;
+
+    border-radius:10px;
+
+    overflow:hidden;
+
+}
+
+
+
+th{
+
+    background:#2563eb;
+
+    color:white;
+
+    padding:14px;
+
+    text-align:left;
+
+}
+
+
+
+td{
+
+    padding:14px;
+
+    border-bottom:1px solid #e5e7eb;
+
+}
+
+
+
+
+
+.present{
+
+    background:#22c55e;
+
+    color:white;
+
+    border:none;
+
+    padding:8px 18px;
+
+    border-radius:20px;
+
+    cursor:pointer;
+
+    font-weight:bold;
+
+}
+
+
+
+
+
+.absent{
+
+    background:#ef4444;
+
+    color:white;
+
+    border:none;
+
+    padding:8px 18px;
+
+    border-radius:20px;
+
+    cursor:pointer;
+
+    font-weight:bold;
+
+}
+
+
+
+
+
+.submit-btn{
+
+
+    margin-top:25px;
+
+    background:#2563eb;
+
+    color:white;
+
+    border:none;
+
+    padding:14px 30px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-size:16px;
+
+    font-weight:bold;
+
+}
+
+
+
+.submit-btn:hover,
+.present-btn:hover,
+.absent-btn:hover{
+
+    opacity:0.85;
+
+}
+
+
+
+
+
+
+@media(max-width:700px){
+
+
+    .bulk-container{
+
+        padding:15px;
+
+    }
+
+
+
+    table{
+
+        font-size:13px;
+
+    }
+
+
+
+    .filters{
+
+        flex-direction:column;
+
+    }
+
+
+}

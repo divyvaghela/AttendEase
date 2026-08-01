@@ -1,0 +1,163 @@
+.students-page{
+    padding:20px;
+}
+
+
+.students-header{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+
+}
+
+
+.students-header button{
+
+    background:#0ea5e9;
+    color:white;
+    border:none;
+    padding:12px 20px;
+    border-radius:8px;
+    cursor:pointer;
+
+}
+
+
+
+.student-form{
+
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+    margin-bottom:20px;
+
+}
+
+
+
+.student-form input,
+.student-form select{
+
+    padding:12px;
+    border:1px solid #ddd;
+    border-radius:8px;
+
+}
+
+
+
+.student-form button{
+
+    padding:12px;
+    border:none;
+    background:#16a34a;
+    color:white;
+    border-radius:8px;
+    cursor:pointer;
+
+}
+
+
+
+.student-search{
+
+    width:100%;
+    padding:14px;
+    margin-bottom:20px;
+    border-radius:8px;
+    border:1px solid #ddd;
+
+}
+
+
+
+
+.student-grid{
+
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+
+}
+
+
+
+.student-card{
+
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+
+}
+
+
+
+.student-card h2{
+
+    color:#0f172a;
+
+}
+
+
+.student-card p{
+
+    margin:8px 0;
+
+}
+
+
+
+.card-buttons{
+
+    display:flex;
+    gap:10px;
+    margin-top:15px;
+
+}
+
+
+
+.card-buttons button{
+
+    padding:8px 15px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    background:#2563eb;
+    color:white;
+
+}
+
+
+
+.card-buttons .delete{
+
+    background:#dc2626;
+
+}
+
+
+
+
+@media(max-width:900px){
+
+.student-grid{
+
+    grid-template-columns:1fr;
+
+}
+
+
+.student-form{
+
+    grid-template-columns:1fr;
+
+}
+
+}

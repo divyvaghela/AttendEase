@@ -1,0 +1,169 @@
+.dashboard {
+  padding: 10px;
+}
+
+.dashboard-header {
+  margin-bottom: 30px;
+}
+
+.dashboard-header h1 {
+  color: #1e293b;
+  font-size: 32px;
+}
+
+.dashboard-header p {
+  color: #64748b;
+  margin-top: 8px;
+  font-size: 16px;
+}
+
+/* Cards */
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-bottom: 35px;
+}
+
+.card {
+  border-radius: 15px;
+  padding: 25px;
+  color: white;
+  transition: 0.3s;
+  box-shadow: 0 10px 20px rgba(0,0,0,.08);
+}
+
+.card:hover {
+  transform: translateY(-6px);
+}
+
+.card-icon {
+  font-size: 38px;
+  margin-bottom: 15px;
+}
+
+.card h3 {
+  font-size: 16px;
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.card h2 {
+  font-size: 34px;
+}
+
+/* Colors */
+
+.blue {
+  background: linear-gradient(135deg,#2563eb,#3b82f6);
+}
+
+.green {
+  background: linear-gradient(135deg,#16a34a,#22c55e);
+}
+
+.red {
+  background: linear-gradient(135deg,#dc2626,#ef4444);
+}
+
+.purple {
+  background: linear-gradient(135deg,#7c3aed,#8b5cf6);
+}
+
+.orange {
+  background: linear-gradient(135deg,#ea580c,#f97316);
+}
+
+/* Summary */
+
+.recent-box {
+  background: white;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 5px 15px rgba(0,0,0,.08);
+}
+
+.recent-box h2 {
+  color: #1e293b;
+  margin-bottom: 20px;
+}
+
+.recent-box table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.recent-box td {
+  padding: 14px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.recent-box tr:last-child td {
+  border-bottom: none;
+}
+
+.recent-box td:first-child {
+  font-weight: 600;
+  color: #334155;
+}
+
+.recent-box td:last-child {
+  text-align: right;
+  font-weight: bold;
+  color: #0f172a;
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+
+  .dashboard-header h1 {
+    font-size: 24px;
+  }
+
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .recent-box {
+    overflow-x: auto;
+  }
+}
+.attendance-card .attendance-detail{
+    margin-top:15px;
+    font-size:14px;
+}
+
+
+.attendance-detail p{
+    margin:5px 0;
+}
+
+
+.attendance-detail b{
+    margin-left:8px;
+}
+
+.today-date{
+    font-size:16px;
+    color:#555;
+}
+
+
+.attendance-card .percentage{
+    font-size:32px;
+    margin:10px 0;
+}
+
+
+.attendance-detail{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+}
+
+
+.attendance-detail p{
+    margin:0;
+}
