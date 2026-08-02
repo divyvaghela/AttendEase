@@ -1,0 +1,343 @@
+*{
+    box-sizing:border-box;
+}
+
+
+
+.manage-container{
+
+    padding:25px;
+
+    background:#f8fafc;
+
+    min-height:100vh;
+
+}
+
+
+
+
+
+.manage-container h1{
+
+    margin-bottom:25px;
+
+    color:#1e293b;
+
+}
+
+
+
+
+
+/* Create User Card */
+
+.user-card{
+
+    background:white;
+
+    padding:25px;
+
+    border-radius:15px;
+
+    max-width:550px;
+
+    box-shadow:0 5px 20px rgba(0,0,0,0.1);
+
+}
+
+
+
+
+
+.user-card input,
+.user-card select{
+
+
+    width:100%;
+
+    padding:12px 15px;
+
+    margin-bottom:15px;
+
+    border:1px solid #cbd5e1;
+
+    border-radius:8px;
+
+    font-size:15px;
+
+
+}
+
+
+
+
+
+.user-card input:focus,
+.user-card select:focus{
+
+    outline:none;
+
+    border-color:#0ea5e9;
+
+}
+
+
+
+
+
+
+
+/* Permission Checkbox */
+
+
+.permissions{
+
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:12px;
+
+    margin:20px 0;
+
+
+}
+
+
+
+
+
+.permissions label{
+
+
+    background:#f1f5f9;
+
+    padding:10px;
+
+    border-radius:8px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    cursor:pointer;
+
+}
+
+
+
+
+
+.permissions input{
+
+    width:auto;
+
+    margin:0;
+
+}
+
+
+
+
+
+
+
+.user-card button{
+
+
+    width:100%;
+
+    padding:13px;
+
+    background:#0ea5e9;
+
+    border:none;
+
+    color:white;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    font-size:16px;
+
+    transition:0.3s;
+
+
+}
+
+
+
+
+
+.user-card button:hover{
+
+    background:#0284c7;
+
+}
+
+
+
+
+
+
+
+/* Users List */
+
+
+.users-list{
+
+    margin-top:30px;
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+
+    gap:20px;
+
+}
+
+
+
+
+
+.user-box{
+
+
+    background:white;
+
+    padding:20px;
+
+    border-radius:12px;
+
+    box-shadow:0 4px 15px rgba(0,0,0,0.08);
+
+
+}
+
+
+
+
+
+.user-box h3{
+
+    color:#0f172a;
+
+    margin-bottom:8px;
+
+}
+
+
+
+
+
+.user-box p{
+
+    color:#475569;
+
+    margin:5px 0;
+
+}
+
+
+
+
+
+.role-admin{
+
+    color:green;
+
+    font-weight:bold;
+
+}
+
+
+
+
+
+.role-teacher{
+
+    color:#0284c7;
+
+    font-weight:bold;
+
+}
+
+
+
+
+
+
+.delete-user{
+
+
+    margin-top:15px;
+
+    padding:10px 15px;
+
+    background:#dc2626;
+
+    color:white;
+
+    border:none;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+
+}
+
+
+
+
+
+.delete-user:hover{
+
+    background:#991b1b;
+
+}
+
+
+
+
+
+
+
+
+@media(max-width:768px){
+
+
+
+.manage-container{
+
+    padding:15px;
+
+}
+
+
+
+
+.user-card{
+
+    padding:18px;
+
+}
+
+
+
+
+
+.permissions{
+
+    grid-template-columns:1fr;
+
+}
+
+
+
+}

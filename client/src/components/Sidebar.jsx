@@ -1,20 +1,19 @@
 import { NavLink, useNavigate } from "react-router-dom";
 
 import {
-  FaTachometerAlt,
-  FaUserGraduate,
-  FaClipboardCheck,
-  FaMoneyBillWave,
-  FaCalendarAlt,
-  FaChartBar,
-  FaCog,
-  FaSignOutAlt,
-  FaTimes
+    FaTachometerAlt,
+    FaUserGraduate,
+    FaClipboardCheck,
+    FaMoneyBillWave,
+    FaCalendarAlt,
+    FaChartBar,
+    FaCog,
+    FaSignOutAlt,
+    FaTimes,
+    FaUsers
 } from "react-icons/fa";
 
-
 import "../styles/sidebar.css";
-
 
 
 function Sidebar({ sidebarOpen, setSidebarOpen }) {
@@ -23,22 +22,24 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
     const navigate = useNavigate();
 
 
+    const user = JSON.parse(
+        localStorage.getItem("user")
+    ) || {};
 
-    const logout =()=>{
 
+
+    const logout = () => {
 
         localStorage.removeItem("token");
+        localStorage.removeItem("user");
 
         navigate("/");
-
 
     };
 
 
 
-
-
-    const closeSidebar=()=>{
+    const closeSidebar = () => {
 
         setSidebarOpen(false);
 
@@ -46,10 +47,25 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
 
 
 
+    // Permission checker
+
+    const hasPermission = (permission) => {
+
+        if(user.role === "Admin")
+        {
+            return true;
+        }
 
 
-    return(
+        return user.permissions?.[permission] === true;
 
+    };
+
+
+
+
+
+    return (
 
         <>
 
@@ -58,52 +74,33 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
             sidebarOpen &&
 
             <div
-
-            className="overlay"
-
-            onClick={closeSidebar}
-
+                className="overlay"
+                onClick={closeSidebar}
             ></div>
-
         }
-
 
 
 
 
         <div
-
-        className={
-            sidebarOpen
-            ?
-            "sidebar mobile-open"
-            :
-            "sidebar"
-        }
-
-
+            className={
+                sidebarOpen
+                ?
+                "sidebar mobile-open"
+                :
+                "sidebar"
+            }
         >
-
-
 
 
 
             <div className="mobile-close">
 
-
-                <button
-
-                onClick={closeSidebar}
-
-                >
-
-                    <FaTimes />
-
+                <button onClick={closeSidebar}>
+                    <FaTimes/>
                 </button>
 
-
             </div>
-
 
 
 
@@ -111,20 +108,11 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
 
             <div className="logo">
 
-
                 <h2>
-                    Shree Home Tutuon Classes
+                    Shree Home Tuition Classes
                 </h2>
 
-
-                {/* <p>
-                    Home Tutuon Class
-                </p> */}
-
-
             </div>
-
-
 
 
 
@@ -135,62 +123,26 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
 
 
 
-                <li>
-
-                <NavLink
-
-                to="/dashboard"
-
-                onClick={closeSidebar}
-
-                className={({isActive})=>
-
-                    isActive ? "active" : ""
-
-                }
-
-                >
-
-                <FaTachometerAlt/>
-
-                <span>
-                    Dashboard
-                </span>
-
-
-                </NavLink>
-
-                </li>
-
-
-
-
-
+                {/* Dashboard */}
 
                 <li>
 
-                <NavLink
+                    <NavLink
+                        to="/dashboard"
+                        onClick={closeSidebar}
+                        className={({isActive}) =>
+                            isActive ? "active" : ""
+                        }
+                    >
 
-                to="/students"
+                        <FaTachometerAlt/>
 
-                onClick={closeSidebar}
-
-                className={({isActive})=>
-
-                    isActive ? "active" : ""
-
-                }
-
-                >
-
-                <FaUserGraduate/>
-
-                <span>
-                    Students
-                </span>
+                        <span>
+                            Dashboard
+                        </span>
 
 
-                </NavLink>
+                    </NavLink>
 
                 </li>
 
@@ -201,65 +153,35 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
 
 
 
-                <li>
 
-                <NavLink
+                {/* Students */}
 
-                to="/attendance"
+                {
+                    hasPermission("viewStudents") &&
 
-                onClick={closeSidebar}
+                    <li>
 
-                className={({isActive})=>
+                        <NavLink
+                            to="/students"
+                            onClick={closeSidebar}
+                            className={({isActive}) =>
+                                isActive ? "active" : ""
+                            }
+                        >
 
-                    isActive ? "active" : ""
+                            <FaUserGraduate/>
 
-                }
-
-                >
-
-                <FaClipboardCheck/>
-
-                <span>
-                    Attendance
-                </span>
-
-
-                </NavLink>
-
-                </li>
+                            <span>
+                                Students
+                            </span>
 
 
+                        </NavLink>
 
-
-
-
-
-                <li>
-
-                <NavLink
-
-                to="/bulk-attendance"
-
-                onClick={closeSidebar}
-
-                className={({isActive})=>
-
-                    isActive ? "active" : ""
+                    </li>
 
                 }
 
-                >
-
-                <FaClipboardCheck/>
-
-                <span>
-                    Bulk Attendance
-                </span>
-
-
-                </NavLink>
-
-                </li>
 
 
 
@@ -267,98 +189,68 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
 
 
 
-                <li>
 
-                <NavLink
+                {/* Attendance */}
 
-                to="/fees"
+                {
+                    hasPermission("attendance") &&
 
-                onClick={closeSidebar}
-
-                className={({isActive})=>
-
-                    isActive ? "active" : ""
-
-                }
-
-                >
-
-                <FaMoneyBillWave/>
-
-                <span>
-                    Fees
-                </span>
+                    <>
 
 
-                </NavLink>
+                    <li>
 
-                </li>
+                        <NavLink
+                            to="/attendance"
+                            onClick={closeSidebar}
+                            className={({isActive}) =>
+                                isActive ? "active" : ""
+                            }
+                        >
 
+                            <FaClipboardCheck/>
 
-
-
-
-
-
-                <li>
-
-                <NavLink
-
-                to="/holidays"
-
-                onClick={closeSidebar}
-
-                className={({isActive})=>
-
-                    isActive ? "active" : ""
-
-                }
-
-                >
-
-                <FaCalendarAlt/>
-
-                <span>
-                    Holidays
-                </span>
+                            <span>
+                                Attendance
+                            </span>
 
 
-                </NavLink>
+                        </NavLink>
 
-                </li>
+
+                    </li>
 
 
 
 
 
+                    <li>
+
+                        <NavLink
+                            to="/bulk-attendance"
+                            onClick={closeSidebar}
+                            className={({isActive}) =>
+                                isActive ? "active" : ""
+                            }
+                        >
+
+                            <FaClipboardCheck/>
+
+                            <span>
+                                Bulk Attendance
+                            </span>
 
 
-                <li>
+                        </NavLink>
 
-                <NavLink
 
-                to="/reports"
+                    </li>
 
-                onClick={closeSidebar}
 
-                className={({isActive})=>
-
-                    isActive ? "active" : ""
+                    </>
 
                 }
 
-                >
-
-                <FaChartBar/>
-
-                <span>
-                    Reports
-                </span>
-
-
-                </NavLink>
-
-                </li>
 
 
 
@@ -366,33 +258,183 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
 
 
 
-                <li>
 
-                <NavLink
+                {/* Fees */}
 
-                to="/settings"
+                {
+                    hasPermission("fees") &&
 
-                onClick={closeSidebar}
+                    <li>
 
-                className={({isActive})=>
+                        <NavLink
+                            to="/fees"
+                            onClick={closeSidebar}
+                            className={({isActive}) =>
+                                isActive ? "active" : ""
+                            }
+                        >
 
-                    isActive ? "active" : ""
+                            <FaMoneyBillWave/>
+
+                            <span>
+                                Fees
+                            </span>
+
+
+                        </NavLink>
+
+
+                    </li>
+                }
+
+
+
+
+
+
+
+
+
+                {/* Holidays */}
+
+                {
+                    hasPermission("holidays") &&
+
+                    <li>
+
+                        <NavLink
+                            to="/holidays"
+                            onClick={closeSidebar}
+                            className={({isActive}) =>
+                                isActive ? "active" : ""
+                            }
+                        >
+
+                            <FaCalendarAlt/>
+
+                            <span>
+                                Holidays
+                            </span>
+
+
+                        </NavLink>
+
+
+                    </li>
 
                 }
 
-                >
-
-                <FaCog/>
-
-                <span>
-                    Settings
-                </span>
 
 
-                </NavLink>
 
-                </li>
 
+
+
+
+
+                {/* Reports */}
+
+                {
+                    hasPermission("reports") &&
+
+                    <li>
+
+                        <NavLink
+                            to="/reports"
+                            onClick={closeSidebar}
+                            className={({isActive}) =>
+                                isActive ? "active" : ""
+                            }
+                        >
+
+                            <FaChartBar/>
+
+                            <span>
+                                Reports
+                            </span>
+
+
+                        </NavLink>
+
+
+                    </li>
+
+                }
+
+
+
+
+
+
+
+
+
+                {/* Settings */}
+
+                {
+                    hasPermission("settings") &&
+
+                    <li>
+
+                        <NavLink
+                            to="/settings"
+                            onClick={closeSidebar}
+                            className={({isActive}) =>
+                                isActive ? "active" : ""
+                            }
+                        >
+
+                            <FaCog/>
+
+                            <span>
+                                Settings
+                            </span>
+
+
+                        </NavLink>
+
+
+                    </li>
+
+                }
+
+
+
+
+
+
+
+
+
+                {/* Admin Only */}
+
+                {
+                    user.role === "Admin" &&
+
+
+                    <li>
+
+                        <NavLink
+                            to="/manage-users"
+                            onClick={closeSidebar}
+                            className={({isActive}) =>
+                                isActive ? "active" : ""
+                            }
+                        >
+
+                            <FaUsers/>
+
+                            <span>
+                                Manage Users
+                            </span>
+
+
+                        </NavLink>
+
+
+                    </li>
+
+                }
 
 
 
@@ -407,15 +449,11 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
 
 
             <button
-
-            className="logout-btn"
-
-            onClick={logout}
-
+                className="logout-btn"
+                onClick={logout}
             >
 
                 <FaSignOutAlt/>
-
 
                 <span>
                     Logout
@@ -428,18 +466,15 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
 
 
 
-
         </div>
+
 
 
         </>
 
-
     );
 
-
 }
-
 
 
 export default Sidebar;

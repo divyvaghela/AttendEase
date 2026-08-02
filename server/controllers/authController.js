@@ -2,90 +2,580 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-// Register
-exports.register = async (req, res) => {
-  try {
-    const { name, email, password } = req.body;
 
-    const userExists = await User.findOne({ email });
 
-    if (userExists) {
-      return res.status(400).json({
-        message: "User already exists",
-      });
+// ================= REGISTER =================
+
+const register = async (req, res) => {
+
+    try {
+
+        const {
+            name,
+            email,
+            password
+        } = req.body;
+
+
+
+        const existingUser = await User.findOne({
+            email
+        });
+
+
+
+        if(existingUser){
+
+            return res.status(400).json({
+                message:"User already exists"
+            });
+
+        }
+
+
+
+
+
+        const hashedPassword = await bcrypt.hash(
+            password,
+            10
+        );
+
+
+
+
+
+        const user = await User.create({
+
+            name,
+
+            email,
+
+            password:hashedPassword,
+
+            role:"Teacher",
+
+            permissions:{
+
+                viewStudents:false,
+
+                addStudent:false,
+
+                deleteStudent:false,
+
+                attendance:false,
+
+                fees:false,
+
+                reports:false,
+
+                settings:false,
+
+                holidays:false
+
+            }
+
+        });
+
+
+
+
+
+
+
+        res.status(201).json({
+
+            message:"Registration Successful",
+
+            user:{
+
+                _id:user._id,
+
+                name:user.name,
+
+                email:user.email,
+
+                role:user.role,
+
+                permissions:user.permissions
+
+            }
+
+        });
+
+
+
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    catch(error){
 
-    const user = await User.create({
-      name,
-      email,
-      password: hashedPassword,
-    });
 
-    res.status(201).json({
-    success: true,
-    message: "Registration Successful",
-    user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-    },
-    });
+        res.status(500).json({
 
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
+            message:error.message
+
+        });
+
+
+    }
+
+
 };
 
-// Login
-exports.login = async (req, res) => {
-  try {
 
-    const { email, password } = req.body;
 
-    const user = await User.findOne({ email });
 
-    if (!user) {
-      return res.status(400).json({
-        message: "Invalid Email",
-      });
+
+
+
+
+// ================= LOGIN =================
+
+
+const login = async(req,res)=>{
+
+
+    try{
+
+
+        const {
+            email,
+            password
+        } = req.body;
+
+
+
+
+
+        const user = await User.findOne({
+            email
+        });
+
+
+
+
+
+        if(!user){
+
+
+            return res.status(404).json({
+
+                message:"User not found"
+
+            });
+
+
+        }
+
+
+
+
+
+
+
+        const match = await bcrypt.compare(
+
+            password,
+
+            user.password
+
+        );
+
+
+
+
+
+        if(!match){
+
+
+            return res.status(400).json({
+
+                message:"Invalid Password"
+
+            });
+
+
+        }
+
+
+
+
+
+
+
+
+        const token = jwt.sign(
+
+            {
+
+                id:user._id,
+
+                role:user.role
+
+            },
+
+
+            process.env.JWT_SECRET,
+
+
+            {
+
+                expiresIn:"1d"
+
+            }
+
+
+        );
+
+
+
+
+
+
+
+
+        let permissions = {};
+
+
+
+
+
+        // ADMIN FULL ACCESS
+
+        if(user.role === "Admin"){
+
+
+            permissions={
+
+
+                viewStudents:true,
+
+                addStudent:true,
+
+                deleteStudent:true,
+
+                attendance:true,
+
+                fees:true,
+
+                reports:true,
+
+                settings:true,
+
+                holidays:true
+
+
+            };
+
+
+        }
+
+
+
+
+
+
+        // TEACHER ACCESS
+
+        else{
+
+
+            permissions={
+
+
+                viewStudents:
+                user.permissions?.viewStudents || false,
+
+
+
+                addStudent:
+                user.permissions?.addStudent || false,
+
+
+
+                deleteStudent:
+                user.permissions?.deleteStudent || false,
+
+
+
+                attendance:
+                user.permissions?.attendance || false,
+
+
+
+                fees:
+                user.permissions?.fees || false,
+
+
+
+                reports:
+                user.permissions?.reports || false,
+
+
+
+                settings:
+                user.permissions?.settings || false,
+
+
+
+                holidays:
+                user.permissions?.holidays || false
+
+
+            };
+
+
+        }
+
+
+
+
+
+
+
+
+
+        res.json({
+
+            message:"Login Successful",
+
+
+            token,
+
+
+
+            user:{
+
+
+                _id:user._id,
+
+
+                name:user.name,
+
+
+                email:user.email,
+
+
+                role:user.role,
+
+
+                permissions
+
+
+            }
+
+
+        });
+
+
+
+
+
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    catch(error){
 
-    if (!isMatch) {
-      return res.status(400).json({
-        message: "Invalid Password",
-      });
+
+        res.status(500).json({
+
+            message:error.message
+
+        });
+
+
     }
 
-const token = jwt.sign(
-    { id: user._id },
-    process.env.JWT_SECRET,
-    {
-        expiresIn: "7d"
+
+};
+
+
+
+
+
+
+
+
+
+
+
+
+// ================= CREATE USER =================
+
+
+const createUser = async(req,res)=>{
+
+
+    try{
+
+
+        const {
+
+            name,
+
+            email,
+
+            password,
+
+            role,
+
+            permissions
+
+
+        } = req.body;
+
+
+
+
+
+
+
+        const existingUser = await User.findOne({
+
+            email
+
+        });
+
+
+
+
+
+        if(existingUser){
+
+
+            return res.status(400).json({
+
+                message:"User already exists"
+
+            });
+
+
+        }
+
+
+
+
+
+
+
+        const hashedPassword = await bcrypt.hash(
+
+            password,
+
+            10
+
+        );
+
+
+
+
+
+
+
+        const user = await User.create({
+
+
+            name,
+
+
+            email,
+
+
+            password:hashedPassword,
+
+
+            role,
+
+
+
+            permissions: role==="Admin"
+
+            ?
+
+            {
+
+                viewStudents:true,
+
+                addStudent:true,
+
+                deleteStudent:true,
+
+                attendance:true,
+
+                fees:true,
+
+                reports:true,
+
+                settings:true,
+
+                holidays:true
+
+            }
+
+
+            :
+
+            permissions
+
+
+
+        });
+
+
+
+
+
+
+
+
+        res.status(201).json({
+
+
+            message:"User Created Successfully",
+
+
+            user
+
+
+
+        });
+
+
+
+
+
     }
-);
 
-res.json({
-  success: true,
-  token,
-  user: {
-    id: user._id,
-    name: user.name,
-    email: user.email,
-  },
-});
-  } catch (error) {
 
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    catch(error){
 
-  }
+
+        res.status(500).json({
+
+            message:error.message
+
+        });
+
+
+    }
+
+
+
+};
+
+
+
+
+
+
+
+
+
+module.exports = {
+
+    register,
+
+    login,
+
+    createUser
+
 };
