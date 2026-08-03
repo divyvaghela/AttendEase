@@ -16,13 +16,13 @@
 
 
 
-
-
 .manage-container h1{
 
     margin-bottom:25px;
 
     color:#1e293b;
+
+    font-size:28px;
 
 }
 
@@ -30,7 +30,8 @@
 
 
 
-/* Create User Card */
+/* ================= CREATE USER CARD ================= */
+
 
 .user-card{
 
@@ -39,6 +40,8 @@
     padding:25px;
 
     border-radius:15px;
+
+    width:100%;
 
     max-width:550px;
 
@@ -76,9 +79,11 @@
 .user-card input:focus,
 .user-card select:focus{
 
+
     outline:none;
 
     border-color:#0ea5e9;
+
 
 }
 
@@ -87,8 +92,8 @@
 
 
 
+/* ================= PERMISSIONS ================= */
 
-/* Permission Checkbox */
 
 
 .permissions{
@@ -122,7 +127,7 @@
 
     align-items:center;
 
-    gap:8px;
+    gap:10px;
 
     cursor:pointer;
 
@@ -134,9 +139,22 @@
 
 .permissions input{
 
+
     width:auto;
 
     margin:0;
+
+
+}
+
+
+
+
+
+.permissions input:disabled{
+
+
+    cursor:not-allowed;
 
 }
 
@@ -146,7 +164,11 @@
 
 
 
-.user-card button{
+/* ================= BUTTON ================= */
+
+
+
+.user-card > button{
 
 
     width:100%;
@@ -174,10 +196,25 @@
 
 
 
-.user-card button:hover{
+.user-card > button:hover{
+
 
     background:#0284c7;
 
+
+}
+
+
+
+
+
+.user-card > button:disabled{
+
+
+    opacity:0.6;
+
+    cursor:not-allowed;
+
 }
 
 
@@ -186,35 +223,24 @@
 
 
 
-/* Users List */
 
 
-.users-list{
-
-    margin-top:30px;
-
-    display:grid;
-
-    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-
-    gap:20px;
-
-}
+/* ================= USERS TABLE ================= */
 
 
 
+.user-list{
 
 
-.user-box{
-
+    margin-top:40px;
 
     background:white;
 
     padding:20px;
 
-    border-radius:12px;
+    border-radius:15px;
 
-    box-shadow:0 4px 15px rgba(0,0,0,0.08);
+    box-shadow:0 5px 20px rgba(0,0,0,0.08);
 
 
 }
@@ -223,11 +249,13 @@
 
 
 
-.user-box h3{
+.user-list h2{
 
-    color:#0f172a;
 
-    margin-bottom:8px;
+    margin-bottom:20px;
+
+    color:#1e293b;
+
 
 }
 
@@ -235,60 +263,189 @@
 
 
 
-.user-box p{
 
-    color:#475569;
 
-    margin:5px 0;
+.user-list table{
+
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    overflow:hidden;
+
 
 }
 
 
+
+
+
+
+
+.user-list th{
+
+
+    background:#0ea5e9;
+
+    color:white;
+
+    padding:14px;
+
+    text-align:left;
+
+
+}
+
+
+
+
+
+
+
+.user-list td{
+
+
+    padding:12px;
+
+    border-bottom:1px solid #e2e8f0;
+
+    color:#334155;
+
+
+}
+
+
+
+
+
+
+.user-list tr:hover{
+
+
+    background:#f8fafc;
+
+
+}
+
+
+
+
+
+
+
+
+
+/* ================= ACTION BUTTONS ================= */
+
+
+
+.user-list button{
+
+
+    width:auto;
+
+    padding:8px 14px;
+
+    margin-right:8px;
+
+    border:none;
+
+    border-radius:6px;
+
+    color:white;
+
+    cursor:pointer;
+
+    font-size:14px;
+
+
+}
+
+
+
+
+
+
+.user-list button:first-child{
+
+
+    background:#16a34a;
+
+
+}
+
+
+
+
+
+.user-list button:first-child:hover{
+
+
+    background:#15803d;
+
+
+}
+
+
+
+
+
+
+
+.user-list button:last-child{
+
+
+    background:#dc2626;
+
+
+}
+
+
+
+
+
+
+.user-list button:last-child:hover{
+
+
+    background:#991b1b;
+
+
+}
+
+
+
+
+
+
+
+
+
+/* ================= ROLE COLORS ================= */
 
 
 
 .role-admin{
 
+
     color:green;
 
     font-weight:bold;
 
-}
 
+}
 
 
 
 
 .role-teacher{
 
+
     color:#0284c7;
 
     font-weight:bold;
 
-}
-
-
-
-
-
-
-.delete-user{
-
-
-    margin-top:15px;
-
-    padding:10px 15px;
-
-    background:#dc2626;
-
-    color:white;
-
-    border:none;
-
-    border-radius:8px;
-
-    cursor:pointer;
-
 
 }
 
@@ -296,48 +453,65 @@
 
 
 
-.delete-user:hover{
-
-    background:#991b1b;
-
-}
 
 
 
-
-
+/* ================= RESPONSIVE ================= */
 
 
 
 @media(max-width:768px){
 
 
+    .manage-container{
 
-.manage-container{
+        padding:15px;
 
-    padding:15px;
-
-}
-
-
-
-
-.user-card{
-
-    padding:18px;
-
-}
+    }
 
 
 
 
 
-.permissions{
+    .user-card{
 
-    grid-template-columns:1fr;
 
-}
+        padding:18px;
 
+    }
+
+
+
+
+
+    .permissions{
+
+
+        grid-template-columns:1fr;
+
+    }
+
+
+
+
+
+    .user-list{
+
+
+        overflow-x:auto;
+
+    }
+
+
+
+
+
+    .user-list table{
+
+
+        min-width:600px;
+
+    }
 
 
 }

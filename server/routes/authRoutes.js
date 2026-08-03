@@ -4,7 +4,10 @@ const router = express.Router();
 const {
     register,
     login,
-    createUser
+    createUser,
+    getUsers,
+    updateUser,
+    deleteUser
 } = require("../controllers/authController");
 
 const {
@@ -21,6 +24,27 @@ router.post(
     protect,
     adminOnly,
     createUser
+);
+
+router.get(
+    "/users",
+    protect,
+    adminOnly,
+    getUsers
+);
+
+router.put(
+    "/update-user/:id",
+    protect,
+    adminOnly,
+    updateUser
+);
+
+router.delete(
+    "/delete-user/:id",
+    protect,
+    adminOnly,
+    deleteUser
 );
 
 module.exports = router;

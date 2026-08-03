@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import api from "../api/axios";
 import Layout from "../components/Layout";
 
@@ -35,14 +35,63 @@ function ManageUsers(){
 
     const [loading,setLoading] = useState(false);
 
+    const [users, setUsers] = useState([]);
+const [editingId, setEditingId] = useState(null);
 
 
 
 
 
+const handleChange=(e)=>{
 
-    const handleChange=(e)=>{
+    if(e.target.name==="role"){
 
+        if(e.target.value==="Admin"){
+
+            setForm({
+
+                ...form,
+
+                role:"Admin",
+
+                permissions:{
+                    viewStudents:true,
+                    addStudent:true,
+                    deleteStudent:true,
+                    attendance:true,
+                    fees:true,
+                    reports:true,
+                    settings:true
+                }
+
+            });
+
+        }
+        else{
+
+            setForm({
+
+                ...form,
+
+                role:"Teacher",
+
+                permissions:{
+                    viewStudents:false,
+                    addStudent:false,
+                    deleteStudent:false,
+                    attendance:false,
+                    fees:false,
+                    reports:false,
+                    settings:false
+                }
+
+            });
+
+        }
+
+    }
+
+    else{
 
         setForm({
 
@@ -52,8 +101,9 @@ function ManageUsers(){
 
         });
 
+    }
 
-    };
+};
 
 
 
@@ -162,6 +212,9 @@ function ManageUsers(){
                 }
 
             });
+            getUsers();
+
+
 
 
 
@@ -197,7 +250,149 @@ function ManageUsers(){
 
     };
 
+const getUsers = async () => {
+    try {
 
+        const token = localStorage.getItem("token");
+
+        const res = await api.get("/auth/users", {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        setUsers(res.data);
+
+    } catch (error) {
+
+        console.log(error);
+
+    }
+};
+
+
+const editUser = (user) => {
+
+    setEditingId(user._id);
+
+    setForm({
+
+        name:user.name,
+
+        email:user.email,
+
+        password:"",
+
+        role:user.role,
+
+        permissions:user.permissions
+
+    });
+
+};
+
+
+const deleteUser = async(id)=>{
+
+    if(!window.confirm("Delete this user?"))
+        return;
+
+
+    try{
+
+        const token = localStorage.getItem("token");
+
+
+ await api.delete(
+    `/auth/delete-user/${id}`,
+            {
+                headers:{
+                    Authorization:`Bearer ${token}`
+                }
+            }
+        );
+
+
+        alert("User Deleted Successfully");
+
+
+        getUsers();
+
+
+    }
+    catch(error){
+
+        alert(
+            error.response?.data?.message ||
+            "Delete Failed"
+        );
+
+    }
+
+};
+
+
+const updateUser = async(e)=>{
+
+    e.preventDefault();
+
+
+    try{
+
+        const token = localStorage.getItem("token");
+
+
+        const res = await api.put(
+
+            `/auth/update-user/${editingId}`,
+
+            form,
+
+            {
+                headers:{
+                    Authorization:`Bearer ${token}`
+                }
+            }
+
+        );
+
+
+        alert(res.data.message);
+
+
+        setEditingId(null);
+
+
+setForm({
+    name:"",
+    email:"",
+    password:"",
+    role:"Teacher",
+    permissions:{
+        viewStudents:false,
+        addStudent:false,
+        deleteStudent:false,
+        attendance:false,
+        fees:false,
+        reports:false,
+        settings:false
+    }
+});
+
+        getUsers();
+
+
+    }
+    catch(error){
+
+        alert(
+            error.response?.data?.message ||
+            "Update Failed"
+        );
+
+    }
+
+};
 
 
 
@@ -227,7 +422,10 @@ function ManageUsers(){
 
 
 
+useEffect(() => {
+    getUsers();
 
+}, []);
 
 
 
@@ -259,8 +457,7 @@ function ManageUsers(){
 
             className="user-card"
 
-            onSubmit={createUser}
-
+onSubmit={editingId ? updateUser : createUser}
             >
 
 
@@ -318,21 +515,21 @@ function ManageUsers(){
 
 
 
-            <input
+ <input
 
-            type="password"
+type="password"
 
-            name="password"
+name="password"
 
-            placeholder="Password"
+placeholder="Password"
 
-            value={form.password}
+value={form.password}
 
-            onChange={handleChange}
+onChange={handleChange}
 
-            required
+required={!editingId}
 
-            />
+/>
 
 
 
@@ -407,18 +604,17 @@ function ManageUsers(){
 
                     <input
 
-                    type="checkbox"
+type="checkbox"
 
-                    name={key}
+name={key}
 
-                    checked={
-                        form.permissions[key]
-                    }
+checked={form.permissions[key]}
 
-                    onChange={handlePermission}
+onChange={handlePermission}
 
-                    />
+disabled={form.role==="Admin"}
 
+/>
 
 
                     <span>
@@ -460,19 +656,17 @@ function ManageUsers(){
             >
 
 
-            {
-
-            loading
-
-            ?
-
-            "Creating..."
-
-            :
-
-            "Create User"
-
-            }
+{
+ loading
+ ?
+ editingId
+ ? "Updating..."
+ : "Creating..."
+ :
+ editingId
+ ? "Update User"
+ : "Create User"
+}
 
 
 
@@ -482,7 +676,66 @@ function ManageUsers(){
 
 
 
+<div className="user-list">
 
+    <h2>All Users</h2>
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Actions</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {
+                users.map((user) => (
+
+                    <tr key={user._id}>
+
+                        <td>{user.name}</td>
+
+                        <td>{user.email}</td>
+
+                        <td>{user.role}</td>
+
+                        <td>
+
+<button
+    type="button"
+    onClick={() => editUser(user)}
+>
+    Edit
+</button>
+
+       <button
+    type="button"
+    onClick={() => deleteUser(user._id)}
+>
+    Delete
+</button>
+
+                        </td>
+
+                    </tr>
+
+                ))
+            }
+
+        </tbody>
+
+    </table>
+
+</div>
 
 
             </form>
