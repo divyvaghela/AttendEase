@@ -1,519 +1,114 @@
-*{
-    box-sizing:border-box;
-}
+.fees-page{
 
+padding:25px;
 
-.fees-container{
+background:#f8fafc;
 
-    padding:25px;
-
-}
-
-
-
-.fees-container h1{
-
-    margin-bottom:25px;
-
-    color:#1e293b;
+min-height:100vh;
 
 }
 
 
+.fee-date{
 
+background:white;
 
+padding:15px;
 
-/* Update Form */
+border-radius:10px;
 
-.fees-form{
-
-    background:white;
-
-    padding:20px;
-
-    border-radius:12px;
-
-    box-shadow:0 5px 15px rgba(0,0,0,0.1);
-
-    margin-bottom:25px;
-
-    display:flex;
-
-    gap:15px;
-
-    align-items:center;
+margin-bottom:20px;
 
 }
 
 
 
-.fees-form h2{
+.fee-date input{
 
-    margin-right:20px;
+padding:10px;
 
-}
-
-
-
-.fees-form input{
-
-    padding:12px;
-
-    border:1px solid #ddd;
-
-    border-radius:8px;
-
-    width:180px;
+margin-left:10px;
 
 }
 
 
 
 
+.fee-grid{
 
-.fees-form button{
+display:grid;
 
-    padding:12px 20px;
+grid-template-columns:
+repeat(auto-fit,minmax(250px,1fr));
 
-    border:none;
-
-    border-radius:8px;
-
-    background:#0ea5e9;
-
-    color:white;
-
-    cursor:pointer;
+gap:20px;
 
 }
 
 
 
-.fees-form button:hover{
+.fee-card{
 
-    background:#0284c7;
+background:white;
 
-}
+padding:20px;
 
+border-radius:12px;
 
-
-
-
-/* Table */
-
-.fees-table{
-
-    width:100%;
-
-    border-collapse:collapse;
-
-    background:white;
-
-    border-radius:12px;
-
-    overflow:hidden;
-
-    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
 
 }
 
 
 
+.fee-card button{
 
+background:#16a34a;
 
-.fees-table th{
+color:white;
 
-    background:#1e293b;
+border:none;
 
-    color:white;
+padding:10px 15px;
 
-    padding:15px;
+border-radius:8px;
 
-    text-align:left;
-
-}
-
-
-
-
-
-.fees-table td{
-
-    padding:14px;
-
-    border-bottom:1px solid #e5e7eb;
+cursor:pointer;
 
 }
 
 
 
+table{
 
+width:100%;
 
-.fees-table tr:hover{
+background:white;
 
-    background:#f8fafc;
+margin-top:20px;
+
+border-collapse:collapse;
 
 }
 
 
 
+th,td{
+
+padding:12px;
+
+border-bottom:1px solid #ddd;
+
+text-align:left;
+
+}
 
 
-/* Status */
 
 .paid{
 
-    background:#dcfce7;
+color:green;
 
-    color:#166534;
-
-    padding:6px 12px;
-
-    border-radius:20px;
-
-    font-weight:600;
-
-}
-
-
-
-.pending{
-
-    background:#fee2e2;
-
-    color:#991b1b;
-
-    padding:6px 12px;
-
-    border-radius:20px;
-
-    font-weight:600;
-
-}
-
-
-
-
-
-/* Action Button */
-
-.fees-table button{
-
-    background:#2563eb;
-
-    color:white;
-
-    border:none;
-
-    padding:8px 15px;
-
-    border-radius:7px;
-
-    cursor:pointer;
-
-}
-
-
-
-.fees-table button:hover{
-
-    background:#1d4ed8;
-
-}
-
-
-
-
-
-/* Responsive */
-
-@media(max-width:900px){
-
-
-    .fees-table{
-
-        display:block;
-
-        overflow-x:auto;
-
-    }
-
-
-
-    .fees-form{
-
-        flex-direction:column;
-
-        align-items:stretch;
-
-    }
-
-
-
-    .fees-form input{
-
-        width:100%;
-
-    }
-
-
-}*{
-    box-sizing:border-box;
-}
-
-
-.fees-container{
-
-    padding:25px;
-
-}
-
-
-
-.fees-container h1{
-
-    margin-bottom:25px;
-
-    color:#1e293b;
-
-}
-
-
-
-
-
-/* Update Form */
-
-.fees-form{
-
-    background:white;
-
-    padding:20px;
-
-    border-radius:12px;
-
-    box-shadow:0 5px 15px rgba(0,0,0,0.1);
-
-    margin-bottom:25px;
-
-    display:flex;
-
-    gap:15px;
-
-    align-items:center;
-
-}
-
-
-
-.fees-form h2{
-
-    margin-right:20px;
-
-}
-
-
-
-.fees-form input{
-
-    padding:12px;
-
-    border:1px solid #ddd;
-
-    border-radius:8px;
-
-    width:180px;
-
-}
-
-
-
-
-
-.fees-form button{
-
-    padding:12px 20px;
-
-    border:none;
-
-    border-radius:8px;
-
-    background:#0ea5e9;
-
-    color:white;
-
-    cursor:pointer;
-
-}
-
-
-
-.fees-form button:hover{
-
-    background:#0284c7;
-
-}
-
-
-
-
-
-/* Table */
-
-.fees-table{
-
-    width:100%;
-
-    border-collapse:collapse;
-
-    background:white;
-
-    border-radius:12px;
-
-    overflow:hidden;
-
-    box-shadow:0 5px 15px rgba(0,0,0,0.1);
-
-}
-
-
-
-
-
-.fees-table th{
-
-    background:#1e293b;
-
-    color:white;
-
-    padding:15px;
-
-    text-align:left;
-
-}
-
-
-
-
-
-.fees-table td{
-
-    padding:14px;
-
-    border-bottom:1px solid #e5e7eb;
-
-}
-
-
-
-
-
-.fees-table tr:hover{
-
-    background:#f8fafc;
-
-}
-
-
-
-
-
-/* Status */
-
-.paid{
-
-    background:#dcfce7;
-
-    color:#166534;
-
-    padding:6px 12px;
-
-    border-radius:20px;
-
-    font-weight:600;
-
-}
-
-
-
-.pending{
-
-    background:#fee2e2;
-
-    color:#991b1b;
-
-    padding:6px 12px;
-
-    border-radius:20px;
-
-    font-weight:600;
-
-}
-
-
-
-
-
-/* Action Button */
-
-.fees-table button{
-
-    background:#2563eb;
-
-    color:white;
-
-    border:none;
-
-    padding:8px 15px;
-
-    border-radius:7px;
-
-    cursor:pointer;
-
-}
-
-
-
-.fees-table button:hover{
-
-    background:#1d4ed8;
-
-}
-
-
-
-
-
-/* Responsive */
-
-@media(max-width:900px){
-
-
-    .fees-table{
-
-        display:block;
-
-        overflow-x:auto;
-
-    }
-
-
-
-    .fees-form{
-
-        flex-direction:column;
-
-        align-items:stretch;
-
-    }
-
-
-
-    .fees-form input{
-
-        width:100%;
-
-    }
-
+font-weight:bold;
 
 }

@@ -1,177 +1,80 @@
 const express = require("express");
 const router = express.Router();
 
-const Student = require("../models/Student");
 
+const {
+    addFee,
+    getFees,
+    getStudentFees,
+    updateFee,
+    deleteFee
+} = require("../controllers/feeController");
 
-// ===========================
-// Get All Student Fees
-// ===========================
 
-router.get("/", async(req,res)=>{
+const {
+    protect,
+    adminOnly
+} = require("../middleware/authMiddleware");
 
-    try{
 
-        const students = await Student.find()
-        .select(
-            "rollNo name course fees"
-        );
 
 
-        const feesData = students.map(student=>{
+// Collect Fee
 
+router.post(
+    "/",
+    protect,
+    adminOnly,
+    addFee
+);
 
-            return {
 
-                id:student._id,
 
-                rollNo:student.rollNo,
 
-                name:student.name,
+// Get All Fees
 
-                course:student.course,
+router.get(
+    "/",
+    protect,
+    adminOnly,
+    getFees
+);
 
 
-                total:
-                student.fees?.total || 0,
 
 
-                paid:
-                student.fees?.paid || 0,
+// Get Student Fee History
 
+router.get(
+    "/student/:studentId",
+    protect,
+    adminOnly,
+    getStudentFees
+);
 
-                pending:
-                student.fees?.pending || 0,
 
 
-                status:
-                (student.fees?.pending || 0) === 0
-                ?
-                "Paid"
-                :
-                "Pending"
 
+// Update Fee
 
-            };
+router.put(
+    "/:id",
+    protect,
+    adminOnly,
+    updateFee
+);
 
 
-        });
 
 
+// Delete Fee
 
-        res.json({
-
-            success:true,
-
-            fees:feesData
-
-        });
-
-
-    }
-    catch(error){
-
-        res.status(500).json({
-
-            success:false,
-
-            message:error.message
-
-        });
-
-    }
-
-
-});
-
-
-
-
-
-// ===========================
-// Update Fees
-// ===========================
-
-router.put("/:id", async(req,res)=>{
-
-
-    try{
-
-
-        const {
-
-            total,
-
-            paid
-
-        } = req.body;
-
-
-
-        const pending =
-        Number(total)-Number(paid);
-
-
-
-        const student = await Student.findByIdAndUpdate(
-
-            req.params.id,
-
-
-            {
-
-                fees:{
-
-                    total:Number(total),
-
-                    paid:Number(paid),
-
-                    pending:pending
-
-                }
-
-            },
-
-
-            {
-                new:true
-            }
-
-
-        );
-
-
-
-        res.json({
-
-            success:true,
-
-            message:"Fees Updated Successfully",
-
-            student
-
-        });
-
-
-    }
-    catch(error){
-
-
-        res.status(500).json({
-
-            success:false,
-
-            message:error.message
-
-        });
-
-
-    }
-
-
-});
-
-
+router.delete(
+    "/:id",
+    protect,
+    adminOnly,
+    deleteFee
+);
 
 
 

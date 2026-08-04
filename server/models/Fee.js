@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 
-
 const feeSchema = new mongoose.Schema({
 
     student:{
@@ -9,31 +8,30 @@ const feeSchema = new mongoose.Schema({
         required:true
     },
 
-
-    totalFees:{
+    amount:{
         type:Number,
         required:true
     },
 
-
-    paidFees:{
-        type:Number,
-        default:0
+    month:{
+        type:String,
+        required:true
     },
 
-
-    pendingFees:{
-        type:Number,
-        default:0
+    paymentDate:{
+        type:Date,
+        default:Date.now
     },
 
+    receiptNo:{
+        type:String,
+        unique:true
+    },
 
     status:{
         type:String,
-        enum:["Paid","Pending","Partial"],
-        default:"Pending"
+        default:"Paid"
     }
-
 
 },
 {

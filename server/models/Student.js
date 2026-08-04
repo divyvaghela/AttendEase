@@ -1,9 +1,7 @@
 const mongoose = require("mongoose");
 
 
-const studentSchema = new mongoose.Schema(
-
-{
+const studentSchema = new mongoose.Schema({
 
     name:{
         type:String,
@@ -76,6 +74,24 @@ const studentSchema = new mongoose.Schema(
     },
 
 
+    // Monthly fixed fees
+
+    monthlyFee:{
+        type:Number,
+        required:true,
+        default:0
+    },
+
+
+    // Student fee cycle start date
+
+    feeStartDate:{
+        type:Date,
+        required:true,
+        default:Date.now
+    },
+
+
     createdBy:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"User"
@@ -83,15 +99,9 @@ const studentSchema = new mongoose.Schema(
 
 
 },
-
 {
     timestamps:true
-}
-
-);
-
-
-// ❌ Remove old pre save middleware
+});
 
 
 module.exports = mongoose.model(

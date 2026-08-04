@@ -1,34 +1,53 @@
 import { useEffect, useState } from "react";
 import api from "../api/axios";
 import Layout from "../components/Layout";
+
 import "../styles/fees.css";
 
 
 function Fees(){
 
 
+    const [students,setStudents] = useState([]);
+
     const [fees,setFees] = useState([]);
 
-
-    const [editId,setEditId] = useState(null);
-
-
-
-    const [form,setForm] = useState({
-
-        total:0,
-
-        paid:0
-
-    });
+    const [paymentDate,setPaymentDate] = useState("");
 
 
 
 
-    // Get Fees Data
+    // ================= GET STUDENTS =================
+
+    const getStudents = async()=>{
+
+        try{
+
+            const res = await api.get("/students");
+
+            setStudents(
+                res.data.students || []
+            );
+
+
+        }
+        catch(error){
+
+            console.log(error);
+
+        }
+
+    };
+
+
+
+
+
+
+    // ================= GET FEES =================
+
 
     const getFees = async()=>{
-
 
         try{
 
@@ -36,16 +55,15 @@ function Fees(){
             const res = await api.get("/fees");
 
 
-            setFees(res.data.fees);
-
+            setFees(
+                res.data.fees || []
+            );
 
 
         }
         catch(error){
 
-
             console.log(error);
-
 
         }
 
@@ -56,8 +74,11 @@ function Fees(){
 
 
 
+
     useEffect(()=>{
 
+
+        getStudents();
 
         getFees();
 
@@ -69,86 +90,57 @@ function Fees(){
 
 
 
-    const handleChange=(e)=>{
-
-
-        setForm({
-
-            ...form,
-
-            [e.target.name]:e.target.value
-
-        });
-
-
-    };
 
 
 
+    // ================= COLLECT FEE =================
 
 
-
-    const editFees=(student)=>{
-
-
-        setEditId(student.id);
+    const collectFee = async(student)=>{
 
 
-        setForm({
+        if(!paymentDate){
 
-            total:student.total,
+            alert(
+                "Select Payment Date"
+            );
 
-            paid:student.paid
+            return;
 
+        }
 
-        });
-
-
-    };
-
-
-
-
-
-
-
-    const updateFees=async(e)=>{
-
-
-        e.preventDefault();
 
 
 
         try{
 
 
-            await api.put(
-
-                `/fees/${editId}`,
-
-                form
-
+            const month = 
+            new Date(paymentDate)
+            .toLocaleString(
+                "default",
+                {
+                    month:"long",
+                    year:"numeric"
+                }
             );
+
+
+
+
+await api.post(
+    "/fees",
+    {
+        student: student._id,
+        paymentDate
+    }
+);
 
 
 
             alert(
-                "Fees Updated Successfully"
+                "Fee Collected Successfully ✅"
             );
-
-
-
-            setEditId(null);
-
-
-
-            setForm({
-
-                total:0,
-
-                paid:0
-
-            });
 
 
 
@@ -157,18 +149,16 @@ function Fees(){
 
 
         }
-        catch(error){
+catch(error){
 
+    console.log("FEE ERROR:", error.response?.data);
 
-            alert(
+    alert(
+        error.response?.data?.message ||
+        "Fee Collection Failed"
+    );
 
-                error.response?.data?.message ||
-                "Update Failed"
-
-            );
-
-
-        }
+}
 
 
     };
@@ -179,299 +169,284 @@ function Fees(){
 
 
 
-    return(
 
 
-        <Layout>
+return(
 
 
-        <div className="fees-container">
+<Layout>
 
 
+<div className="fees-page">
 
-            <h1>
-                Fees Management 💰
-            </h1>
 
+<h1>
+    Fees Management 💰
+</h1>
 
 
 
 
-            {
 
-            editId &&
 
+<div className="fee-date">
 
-            <form 
-            className="fees-form"
-            onSubmit={updateFees}
-            >
 
+<label>
 
-                <h2>
-                    Update Fees
-                </h2>
+Payment Date:
 
+</label>
 
 
-                <input
+<input
 
-                type="number"
+type="date"
 
-                name="total"
+value={paymentDate}
 
-                placeholder="Total Fees"
+onChange={(e)=>
+setPaymentDate(e.target.value)
+}
 
-                value={form.total}
+/>
 
-                onChange={handleChange}
 
-                />
+</div>
 
 
 
 
-                <input
 
-                type="number"
 
-                name="paid"
 
-                placeholder="Paid Fees"
+<h2>
+Students
+</h2>
 
-                value={form.paid}
 
-                onChange={handleChange}
 
-                />
 
+<div className="fee-grid">
 
 
 
-                <button>
+{
 
-                    Save Fees
+students.map((student)=>(
 
-                </button>
 
+<div
 
+className="fee-card"
 
-                <button
+key={student._id}
 
-                type="button"
+>
 
-                onClick={()=>setEditId(null)}
 
-                >
+<h3>
 
-                    Cancel
+{student.name}
 
-                </button>
+</h3>
 
 
 
-            </form>
+<p>
 
+Roll No:
 
-            }
+{student.rollNo}
 
+</p>
 
 
 
+<p>
 
+Monthly Fee:
 
+<b>
+₹ {student.monthlyFee}
+</b>
 
-            <table className="fees-table">
+</p>
 
 
 
-                <thead>
 
+<button
 
-                    <tr>
+onClick={()=>
+collectFee(student)
+}
 
+>
 
-                        <th>
-                            Roll No
-                        </th>
+Collect Fee
 
+</button>
 
-                        <th>
-                            Student Name
-                        </th>
 
 
-                        <th>
-                            Course
-                        </th>
+</div>
 
 
-                        <th>
-                            Total Fees
-                        </th>
+))
 
 
-                        <th>
-                            Paid
-                        </th>
+}
 
 
-                        <th>
-                            Pending
-                        </th>
 
+</div>
 
-                        <th>
-                            Status
-                        </th>
 
 
-                        <th>
-                            Action
-                        </th>
 
 
 
-                    </tr>
 
 
-                </thead>
 
+<h2>
+Fee History
+</h2>
 
 
 
 
-                <tbody>
 
+<table>
 
 
-                {
+<thead>
 
+<tr>
 
-                fees.map((student)=>(
+<th>
+Student
+</th>
 
 
-                    <tr key={student.id}>
+<th>
+Month
+</th>
 
 
-                        <td>
-                            {student.rollNo}
-                        </td>
+<th>
+Amount
+</th>
 
 
+<th>
+Date
+</th>
 
-                        <td>
-                            {student.name}
-                        </td>
 
+<th>
+Status
+</th>
 
 
-                        <td>
-                            {student.course}
-                        </td>
+</tr>
 
+</thead>
 
 
-                        <td>
-                            ₹ {student.total}
-                        </td>
 
 
 
-                        <td>
-                            ₹ {student.paid}
-                        </td>
+<tbody>
 
 
+{
 
+fees.map((fee)=>(
 
-                        <td>
-                            ₹ {student.pending}
-                        </td>
 
+<tr key={fee._id}>
 
 
+<td>
 
+{
+fee.student?.name
+}
 
-                        <td>
+</td>
 
 
-                            <span
+<td>
 
-                            className={
-                                student.status==="Paid"
-                                ?
-                                "paid"
-                                :
-                                "pending"
-                            }
+{
+fee.month
+}
 
-                            >
+</td>
 
-                            {
-                                student.status
-                            }
 
+<td>
 
-                            </span>
+₹ {fee.amount}
 
+</td>
 
-                        </td>
 
+<td>
 
+{
+new Date(
+fee.paymentDate
+)
+.toLocaleDateString()
 
+}
 
+</td>
 
-                        <td>
 
+<td>
 
-                            <button
+<span className="paid">
 
-                            onClick={
-                                ()=>editFees(student)
-                            }
+{
+fee.status
+}
 
-                            >
+</span>
 
-                                Update
+</td>
 
-                            </button>
 
+</tr>
 
 
-                        </td>
+))
 
 
+}
 
-                    </tr>
 
 
+</tbody>
 
-                ))
 
+</table>
 
 
-                }
 
 
 
-                </tbody>
 
+</div>
 
 
-            </table>
+</Layout>
 
 
-
-
-
-        </div>
-
-
-        </Layout>
-
-
-    );
+);
 
 
 }

@@ -15,8 +15,7 @@ function Students(){
     const [search,setSearch] = useState("");
 
 
-
-    const [form,setForm] = useState({
+    const initialForm = {
 
         name:"",
         rollNo:"",
@@ -26,15 +25,19 @@ function Students(){
         course:"",
         medium:"English",
         standard:"",
-        semester:7
+        semester:7,
 
-    });
+        monthlyFee:"",
+        feeStartDate:""
+
+    };
+
+
+    const [form,setForm] = useState(initialForm);
 
 
 
-
-
-    // Get Students
+    // ================= GET STUDENTS =================
 
     const getStudents = async()=>{
 
@@ -45,7 +48,6 @@ function Students(){
             setStudents(
                 res.data.students || []
             );
-
 
         }
         catch(error){
@@ -69,6 +71,7 @@ function Students(){
 
 
 
+    // ================= INPUT CHANGE =================
 
 
     const handleChange=(e)=>{
@@ -91,23 +94,13 @@ function Students(){
 
 
 
+    // ================= RESET FORM =================
+
+
     const resetForm=()=>{
 
 
-        setForm({
-
-            name:"",
-            rollNo:"",
-            email:"",
-            mobile:"",
-            parentMobile:"",
-            course:"",
-            medium:"English",
-            standard:"",
-            semester:7
-
-        });
-
+        setForm(initialForm);
 
         setEditId(null);
 
@@ -122,6 +115,8 @@ function Students(){
 
 
 
+
+    // ================= ADD / UPDATE =================
 
 
     const addStudent=async(e)=>{
@@ -184,6 +179,7 @@ function Students(){
             alert(
 
                 error.response?.data?.message ||
+
                 "Operation Failed"
 
             );
@@ -200,6 +196,8 @@ function Students(){
 
 
 
+
+    // ================= EDIT =================
 
 
     const editStudent=(student)=>{
@@ -222,16 +220,40 @@ function Students(){
 
             mobile:student.mobile || "",
 
-            parentMobile:student.parentMobile || "",
+            parentMobile:
+            student.parentMobile || "",
 
-            course:student.course || "",
+            course:
+            student.course || "",
 
-            medium:student.medium || "English",
 
-            standard:student.standard || "",
+            medium:
+            student.medium || "English",
 
-            semester:student.semester || 7
 
+            standard:
+            student.standard || "",
+
+
+            semester:
+            student.semester || 7,
+
+
+            monthlyFee:
+            student.monthlyFee || "",
+
+
+            feeStartDate:
+
+            student.feeStartDate
+
+            ?
+
+            student.feeStartDate.substring(0,10)
+
+            :
+
+            ""
 
         });
 
@@ -245,6 +267,8 @@ function Students(){
 
 
 
+    // ================= DELETE =================
+
 
     const deleteStudent=async(id)=>{
 
@@ -254,6 +278,7 @@ function Students(){
                 "Delete this student?"
             )
         )
+
         return;
 
 
@@ -277,6 +302,7 @@ function Students(){
 
 
         }
+
         catch(error){
 
             console.log(error);
@@ -292,6 +318,8 @@ function Students(){
 
 
 
+
+    // ================= SEARCH =================
 
 
     const filteredStudents = students.filter(
@@ -316,304 +344,277 @@ function Students(){
 
     );
 
-
-
-
-
-
-
-
-
     return(
 
 
-    <Layout>
+<Layout>
 
 
-    <div className="students-page">
+<div className="students-page">
 
 
 
-        <div className="students-header">
+<div className="students-header">
 
 
-            <h1>
-                Student Management 📚
-            </h1>
+<h1>
+    Student Management 📚
+</h1>
 
 
 
-            <button
+<button
 
-            onClick={()=>setShowForm(!showForm)}
+onClick={()=>setShowForm(!showForm)}
 
-            >
+>
 
-            {
-                showForm
-                ?
-                "Close Form"
-                :
-                "+ Add Student"
-            }
+{
+showForm
+?
+"Close Form"
+:
+"+ Add Student"
+}
 
 
-            </button>
+</button>
 
 
+</div>
 
-        </div>
 
 
 
 
 
 
+{
+showForm &&
 
-        {
-            showForm &&
 
-            <form
+<form
 
-            className="student-form"
+className="student-form"
 
-            onSubmit={addStudent}
+onSubmit={addStudent}
 
-            >
+>
 
 
 
-            <input
 
-            name="name"
+<input
 
-            placeholder="Student Name"
+name="name"
 
-            value={form.name}
+placeholder="Student Name"
 
-            onChange={handleChange}
+value={form.name}
 
-            required
+onChange={handleChange}
 
-            />
+required
 
+/>
 
 
 
-            <input
 
-            name="rollNo"
 
-            placeholder="Roll No"
 
-            value={form.rollNo}
+<input
 
-            onChange={handleChange}
+name="rollNo"
 
-            required
+placeholder="Roll No"
 
-            />
+value={form.rollNo}
 
+onChange={handleChange}
 
+required
 
+/>
 
 
-            <input
 
-            name="email"
 
-            placeholder="Email"
 
-            value={form.email}
 
-            onChange={handleChange}
 
-            />
+<input
 
+name="email"
 
+placeholder="Email"
 
+value={form.email}
 
+onChange={handleChange}
 
-            <input
+/>
 
-            name="mobile"
 
-            placeholder="Student Mobile"
 
-            value={form.mobile}
 
-            onChange={handleChange}
 
-            required
 
-            />
 
+<input
 
+name="mobile"
 
+placeholder="Student Mobile"
 
+value={form.mobile}
 
-            <input
+onChange={handleChange}
 
-            name="parentMobile"
+required
 
-            placeholder="Parent Mobile"
+/>
 
-            value={form.parentMobile}
 
-            onChange={handleChange}
 
-            required
 
-            />
 
 
 
+<input
 
+name="parentMobile"
 
-            <input
+placeholder="Parent Mobile"
 
-            name="course"
+value={form.parentMobile}
 
-            placeholder="Course"
+onChange={handleChange}
 
-            value={form.course}
+required
 
-            onChange={handleChange}
+/>
 
-            />
 
 
 
 
 
 
-            <select
+<input
 
-            name="medium"
+name="course"
 
-            value={form.medium}
+placeholder="Course"
 
-            onChange={handleChange}
+value={form.course}
 
-            >
+onChange={handleChange}
 
+/>
 
-                <option>
-                    English
-                </option>
 
 
-                <option>
-                    Gujarati
-                </option>
 
 
-            </select>
 
 
+<select
 
+name="medium"
 
+value={form.medium}
 
+onChange={handleChange}
 
-            <input
+>
 
-            name="standard"
 
-            placeholder="Standard"
+<option value="English">
 
-            value={form.standard}
+English
 
-            onChange={handleChange}
+</option>
 
-            required
 
-            />
+<option value="Gujarati">
 
+Gujarati
 
+</option>
 
 
+</select>
 
 
 
-            <input
 
-            type="number"
 
-            name="semester"
 
-            placeholder="Semester"
 
-            value={form.semester}
 
-            onChange={handleChange}
+<input
 
-            />
+name="standard"
 
+placeholder="Standard"
 
+value={form.standard}
 
+onChange={handleChange}
 
+required
 
+/>
 
 
-            <button>
 
-            {
-                editId
-                ?
-                "Update Student"
-                :
-                "Save Student"
-            }
 
-            </button>
 
 
 
 
 
-            {
-                editId &&
+<input
 
-                <button
+type="number"
 
-                type="button"
+name="semester"
 
-                onClick={resetForm}
+placeholder="Semester"
 
-                >
+value={form.semester}
 
-                Cancel
+onChange={handleChange}
 
-                </button>
+/>
 
-            }
 
 
 
-            </form>
 
-        }
 
 
 
+{/* NEW FEES FIELDS */}
 
 
 
+<input
 
+type="number"
 
-        <input
+name="monthlyFee"
 
-        className="student-search"
+placeholder="Monthly Fee ₹"
 
-        placeholder="Search Student / Roll No"
+value={form.monthlyFee}
 
-        value={search}
+onChange={handleChange}
 
-        onChange={
-            (e)=>setSearch(e.target.value)
-        }
+required
 
-        />
+/>
 
 
 
@@ -622,174 +623,416 @@ function Students(){
 
 
 
+<input
 
-        <div className="student-grid">
+type="date"
 
+name="feeStartDate"
 
+value={form.feeStartDate}
 
-        {
+onChange={handleChange}
 
+required
 
-        filteredStudents.map((student)=>(
+/>
 
 
-        <div
 
-        className="student-card"
 
-        key={student._id}
 
-        >
 
 
 
-            <h2>
-                {student.name}
-            </h2>
 
+<button type="submit">
 
 
-            <p>
-                Roll No:
-                <b>
-                {student.rollNo}
-                </b>
-            </p>
+{
 
+editId
 
+?
 
-            <p>
-                Course:
-                {student.course}
-            </p>
+"Update Student"
 
+:
 
+"Save Student"
 
-            <p>
-                Medium:
-                {student.medium}
-            </p>
+}
 
 
+</button>
 
-            <p>
-                Standard:
-                {student.standard}
-            </p>
 
 
 
-            <p>
-                Semester:
-                {student.semester}
-            </p>
 
 
+{
+editId &&
 
 
+<button
 
-            <hr/>
+type="button"
 
+onClick={resetForm}
 
+>
 
 
+Cancel
 
-            <p>
-                Total Classes:
-                {
-                student.attendance?.total || 0
-                }
-            </p>
 
+</button>
 
 
-            <p>
-                Present:
-                {
-                student.attendance?.present || 0
-                }
-            </p>
+}
 
 
 
-            <p>
-                Attendance:
-                {
-                student.attendance?.percentage || "0%"
-                }
-            </p>
 
+</form>
 
 
+}
 
 
 
 
-            <div className="card-buttons">
 
 
-            <button
+<input
 
-            onClick={()=>
-                editStudent(student)
-            }
+className="student-search"
 
-            >
+placeholder="Search Student / Roll No"
 
-            Edit
+value={search}
 
-            </button>
+onChange={(e)=>
 
+setSearch(e.target.value)
 
+}
 
+/>
 
 
-            <button
 
-            className="delete"
 
-            onClick={()=>
-                deleteStudent(student._id)
-            }
+<div className="student-grid">
 
-            >
 
-            Delete
 
-            </button>
+{
 
+filteredStudents.map((student)=>(
 
 
-            </div>
+<div
 
+className="student-card"
 
+key={student._id}
 
+>
 
 
-        </div>
 
 
+<h2>
 
-        ))
+{student.name}
 
+</h2>
 
-        }
 
 
 
-        </div>
 
+<p>
 
+Roll No:
 
+<b>
 
+{student.rollNo}
 
-    </div>
+</b>
 
+</p>
 
-    </Layout>
 
 
-    );
+
+
+<p>
+
+Course:
+
+{student.course}
+
+</p>
+
+
+
+
+
+<p>
+
+Medium:
+
+{student.medium}
+
+</p>
+
+
+
+
+
+<p>
+
+Standard:
+
+{student.standard}
+
+</p>
+
+
+
+
+
+<p>
+
+Semester:
+
+{student.semester}
+
+</p>
+
+
+
+
+
+<hr/>
+
+
+
+
+
+
+{/* FEES INFORMATION */}
+
+
+
+<h3>
+
+💰 Fees
+
+</h3>
+
+
+
+
+<p>
+
+Monthly Fee:
+
+<b>
+
+₹ {student.monthlyFee || 0}
+
+</b>
+
+</p>
+
+
+
+
+
+<p>
+
+Fee Start Date:
+
+{
+
+student.feeStartDate
+
+?
+
+new Date(
+student.feeStartDate
+)
+.toLocaleDateString()
+
+:
+
+"-"
+
+}
+
+</p>
+
+
+
+
+
+
+
+<hr/>
+
+
+
+
+
+
+
+<h3>
+
+📅 Attendance
+
+</h3>
+
+
+
+
+
+
+
+<p>
+
+Total Classes:
+
+{
+
+student.attendance?.total || 0
+
+}
+
+</p>
+
+
+
+
+
+
+
+<p>
+
+Present:
+
+{
+
+student.attendance?.present || 0
+
+}
+
+</p>
+
+
+
+
+
+
+
+<p>
+
+Attendance:
+
+{
+
+student.attendance?.percentage || "0%"
+
+}
+
+</p>
+
+
+
+
+
+
+
+
+
+<div className="card-buttons">
+
+
+
+
+
+
+<button
+
+onClick={()=>editStudent(student)}
+
+>
+
+Edit
+
+</button>
+
+
+
+
+
+
+
+
+
+<button
+
+className="delete"
+
+onClick={()=>deleteStudent(student._id)}
+
+>
+
+Delete
+
+</button>
+
+
+
+
+
+</div>
+
+
+
+
+
+</div>
+
+
+))
+
+
+}
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+</div>
+
+
+</Layout>
+
+
+);
 
 
 }

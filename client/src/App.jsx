@@ -17,6 +17,7 @@ import Settings from "./pages/Settings";
 import ManageUsers from "./pages/ManageUsers";
 import NotFound from "./pages/NotFound";
 
+
 // Components
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminRoute from "./components/AdminRoute";
@@ -141,6 +142,11 @@ function App() {
                     path="*"
                     element={<NotFound />}
                 />
+
+                <Route
+path="/fees"
+element={<Fees/>}
+/>
 
             </Routes>
 

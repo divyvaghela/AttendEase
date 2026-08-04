@@ -1,8 +1,11 @@
 const Fee = require("../models/Fee");
+const Student = require("../models/Student");
 
 
 
-// Add Fee
+// ===============================
+// Collect Fee
+// ===============================
 
 const addFee = async(req,res)=>{
 
@@ -11,44 +14,108 @@ const addFee = async(req,res)=>{
 
         const {
             student,
-            totalFees,
-            paidFees
-        }=req.body;
+            paymentDate
+        } = req.body;
 
 
 
-        const pendingFees =
-        totalFees - paidFees;
+        // Find Student
+
+        const studentData =
+        await Student.findById(student);
 
 
 
-        let status="Pending";
+        if(!studentData){
 
+            return res.status(404).json({
 
-        if(pendingFees===0)
-        {
-            status="Paid";
+                success:false,
+
+                message:"Student not found"
+
+            });
+
         }
-        else if(paidFees>0)
-        {
-            status="Partial";
+
+
+
+
+        // Check already paid for same month
+
+        const month =
+        new Date(paymentDate)
+        .toLocaleString(
+            "default",
+            {
+                month:"long",
+                year:"numeric"
+            }
+        );
+
+
+
+        const existingFee =
+        await Fee.findOne({
+
+            student,
+
+            month
+
+        });
+
+
+
+        if(existingFee){
+
+            return res.status(400).json({
+
+                success:false,
+
+                message:"Fee already collected for this month"
+
+            });
+
         }
+
+
+
+
+        // Create Receipt Number
+
+        const receiptNo =
+        "REC-" + Date.now();
+
+
 
 
 
         const fee = await Fee.create({
 
+
             student,
 
-            totalFees,
 
-            paidFees,
+            month,
 
-            pendingFees,
 
-            status
+            amount:
+            studentData.monthlyFee,
+
+
+            paymentDate,
+
+
+            status:"Paid",
+
+
+            receiptNo
+
 
         });
+
+
+
 
 
 
@@ -56,7 +123,7 @@ const addFee = async(req,res)=>{
 
             success:true,
 
-            message:"Fee Added Successfully",
+            message:"Fee Collected Successfully ✅",
 
             fee
 
@@ -85,7 +152,12 @@ const addFee = async(req,res)=>{
 
 
 
+
+
+
+// ===============================
 // Get All Fees
+// ===============================
 
 
 const getFees = async(req,res)=>{
@@ -97,9 +169,20 @@ const getFees = async(req,res)=>{
         const fees = await Fee.find()
 
         .populate(
+
             "student",
-            "name rollNo course semester"
-        );
+
+            "name rollNo parentMobile course semester monthlyFee"
+
+        )
+
+        .sort({
+
+            createdAt:-1
+
+        });
+
+
 
 
         res.json({
@@ -133,7 +216,83 @@ const getFees = async(req,res)=>{
 
 
 
+
+
+
+
+
+// ===============================
+// Get Student Fees
+// ===============================
+
+
+const getStudentFees = async(req,res)=>{
+
+
+    try{
+
+
+        const fees = await Fee.find({
+
+            student:req.params.studentId
+
+        })
+
+        .populate(
+
+            "student",
+
+            "name rollNo"
+
+        )
+
+        .sort({
+
+            paymentDate:-1
+
+        });
+
+
+
+
+        res.json({
+
+            success:true,
+
+            fees
+
+        });
+
+
+
+    }
+    catch(error){
+
+
+        res.status(500).json({
+
+            success:false,
+
+            message:error.message
+
+        });
+
+
+    }
+
+
+};
+
+
+
+
+
+
+
+
+// ===============================
 // Update Fee
+// ===============================
 
 
 const updateFee = async(req,res)=>{
@@ -145,21 +304,44 @@ const updateFee = async(req,res)=>{
         const fee =
         await Fee.findByIdAndUpdate(
 
+
             req.params.id,
 
+
             req.body,
+
 
             {
                 new:true
             }
 
+
         );
+
+
+
+        if(!fee){
+
+
+            return res.status(404).json({
+
+                success:false,
+
+                message:"Fee record not found"
+
+            });
+
+
+        }
+
 
 
 
         res.json({
 
             success:true,
+
+            message:"Fee Updated Successfully",
 
             fee
 
@@ -188,54 +370,97 @@ const updateFee = async(req,res)=>{
 
 
 
+
+
+
+
+
+
+// ===============================
 // Delete Fee
+// ===============================
 
 
-const deleteFee=async(req,res)=>{
+const deleteFee = async(req,res)=>{
 
 
-try{
+    try{
 
 
-await Fee.findByIdAndDelete(req.params.id);
+        const fee =
+        await Fee.findByIdAndDelete(
+
+            req.params.id
+
+        );
 
 
 
-res.json({
-
-success:true,
-
-message:"Fee Deleted"
-
-});
+        if(!fee){
 
 
-}
-catch(error){
+            return res.status(404).json({
 
-res.status(500).json({
+                success:false,
 
-success:false,
+                message:"Fee not found"
 
-message:error.message
+            });
 
-});
 
-}
+        }
+
+
+
+
+        res.json({
+
+            success:true,
+
+            message:"Fee Deleted Successfully"
+
+        });
+
+
+
+    }
+    catch(error){
+
+
+        res.status(500).json({
+
+            success:false,
+
+            message:error.message
+
+        });
+
+
+    }
 
 
 };
 
 
 
-module.exports={
 
-addFee,
 
-getFees,
 
-updateFee,
 
-deleteFee
+
+
+module.exports = {
+
+
+    addFee,
+
+    getFees,
+
+    getStudentFees,
+
+    updateFee,
+
+    deleteFee
+
 
 };
