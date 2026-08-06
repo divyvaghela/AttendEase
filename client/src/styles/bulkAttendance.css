@@ -1,60 +1,34 @@
+/* =========================
+BULK ATTENDANCE
+========================= */
+
+
 .bulk-container{
 
-    padding:30px;
+    padding:20px;
+
+    width:100%;
 
 }
+
 
 
 .bulk-container h1{
 
-    margin-bottom:25px;
+    font-size:32px;
 
-    color:#1e293b;
+    margin-bottom:25px;
 
 }
 
 
 
+
+
+/* DATE FILTER */
 
 
 .filters{
-
-    display:flex;
-
-    gap:15px;
-
-    flex-wrap:wrap;
-
-    margin-bottom:25px;
-
-}
-
-
-
-.filters input,
-.filters select{
-
-    padding:12px;
-
-    border-radius:8px;
-
-    border:1px solid #cbd5e1;
-
-    font-size:15px;
-
-}
-
-
-
-
-
-
-
-.action-buttons{
-
-    display:flex;
-
-    gap:15px;
 
     margin-bottom:20px;
 
@@ -62,22 +36,68 @@
 
 
 
+.filters input{
 
-.present-btn{
 
-    background:#16a34a;
+    padding:12px;
 
-    color:white;
-
-    border:none;
-
-    padding:12px 20px;
+    border:1px solid #ddd;
 
     border-radius:8px;
 
+    font-size:16px;
+
+
+}
+
+
+
+
+
+
+
+/* ACTION BUTTONS */
+
+
+.action-buttons{
+
+
+    display:flex;
+
+    gap:15px;
+
+    margin-bottom:20px;
+
+
+}
+
+
+
+.action-buttons button{
+
+
+    padding:12px 20px;
+
+    border:none;
+
+    border-radius:8px;
+
+    color:white;
+
     cursor:pointer;
 
-    font-weight:bold;
+    font-size:15px;
+
+
+}
+
+
+
+.present-btn{
+
+
+    background:#16a34a;
+
 
 }
 
@@ -85,19 +105,9 @@
 
 .absent-btn{
 
+
     background:#dc2626;
 
-    color:white;
-
-    border:none;
-
-    padding:12px 20px;
-
-    border-radius:8px;
-
-    cursor:pointer;
-
-    font-weight:bold;
 
 }
 
@@ -105,63 +115,121 @@
 
 
 
-table{
+
+
+
+/* TABLE */
+
+
+.bulk-container table{
+
 
     width:100%;
 
+
     border-collapse:collapse;
+
 
     background:white;
 
-    border-radius:10px;
+
+    border-radius:12px;
+
 
     overflow:hidden;
 
+
 }
 
 
 
-th{
+.bulk-container th{
 
-    background:#2563eb;
+
+    background:#0f172a;
+
 
     color:white;
 
+
     padding:14px;
+
 
     text-align:left;
 
+
 }
 
 
 
-td{
 
-    padding:14px;
+.bulk-container td{
+
+
+    padding:12px;
+
 
     border-bottom:1px solid #e5e7eb;
 
+
 }
 
+
+
+
+
+
+
+
+/* STATUS BUTTON */
+
+
+.present,
+.absent{
+
+
+    border:none;
+
+
+    padding:8px 18px;
+
+
+    border-radius:20px;
+
+
+    cursor:pointer;
+
+
+    font-weight:600;
+
+
+}
 
 
 
 
 .present{
 
-    background:#22c55e;
 
-    color:white;
+    background:#dcfce7;
 
-    border:none;
 
-    padding:8px 18px;
+    color:#15803d;
 
-    border-radius:20px;
 
-    cursor:pointer;
+}
 
-    font-weight:bold;
+
+
+
+.absent{
+
+
+    background:#fee2e2;
+
+
+    color:#dc2626;
+
 
 }
 
@@ -169,21 +237,158 @@ td{
 
 
 
-.absent{
 
-    background:#ef4444;
+
+
+/* SUBMIT */
+
+
+.submit-btn{
+
+
+    margin-top:25px;
+
+
+    width:100%;
+
+
+    padding:14px;
+
+
+    background:#2563eb;
+
 
     color:white;
 
+
     border:none;
 
-    padding:8px 18px;
 
-    border-radius:20px;
+    border-radius:10px;
+
+
+    font-size:16px;
+
 
     cursor:pointer;
 
-    font-weight:bold;
+
+}
+
+
+
+
+
+
+
+/* =========================
+TABLET
+========================= */
+
+
+@media(max-width:1024px){
+
+
+
+.bulk-container h1{
+
+
+    font-size:26px;
+
+
+}
+
+
+
+}
+
+
+
+
+
+
+
+/* =========================
+MOBILE
+========================= */
+
+
+@media(max-width:768px){
+
+
+
+.bulk-container{
+
+
+    padding:10px;
+
+
+}
+
+
+
+.bulk-container h1{
+
+
+    font-size:22px;
+
+
+}
+
+
+
+
+
+.action-buttons{
+
+
+    flex-direction:column;
+
+
+}
+
+
+
+.action-buttons button{
+
+
+    width:100%;
+
+
+}
+
+
+
+
+
+/* table scroll */
+
+
+.bulk-container table{
+
+
+    display:block;
+
+
+    overflow-x:auto;
+
+
+    white-space:nowrap;
+
+
+}
+
+
+
+.bulk-container th,
+.bulk-container td{
+
+
+    padding:10px;
+
+
+    font-size:14px;
+
 
 }
 
@@ -194,33 +399,12 @@ td{
 .submit-btn{
 
 
-    margin-top:25px;
+    font-size:14px;
 
-    background:#2563eb;
-
-    color:white;
-
-    border:none;
-
-    padding:14px 30px;
-
-    border-radius:10px;
-
-    cursor:pointer;
-
-    font-size:16px;
-
-    font-weight:bold;
 
 }
 
 
-
-.submit-btn:hover,
-.present-btn:hover,
-.absent-btn:hover{
-
-    opacity:0.85;
 
 }
 
@@ -229,30 +413,22 @@ td{
 
 
 
-@media(max-width:700px){
+
+/* SMALL MOBILE */
 
 
-    .bulk-container{
-
-        padding:15px;
-
-    }
+@media(max-width:480px){
 
 
 
-    table{
-
-        font-size:13px;
-
-    }
+.filters input{
 
 
+    width:100%;
 
-    .filters{
 
-        flex-direction:column;
+}
 
-    }
 
 
 }

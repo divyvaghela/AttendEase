@@ -5,7 +5,6 @@
 }
 
 
-
 .sidebar{
 
     width:260px;
@@ -26,9 +25,9 @@
 
     flex-direction:column;
 
-    overflow-y:auto;
+    overflow:hidden;
 
-    transition:0.3s ease;
+    transition:.3s ease;
 
     z-index:2000;
 
@@ -37,8 +36,7 @@
 
 
 
-
-/* Logo */
+/* LOGO */
 
 .logo{
 
@@ -46,7 +44,7 @@
 
     padding:25px 10px;
 
-    border-bottom:1px solid rgba(255,255,255,0.1);
+    border-bottom:1px solid rgba(255,255,255,.1);
 
 }
 
@@ -56,7 +54,7 @@
 
     color:#38bdf8;
 
-    font-size:28px;
+    font-size:24px;
 
 }
 
@@ -66,9 +64,9 @@
 
     color:#cbd5e1;
 
-    margin-top:5px;
-
     font-size:14px;
+
+    margin-top:5px;
 
 }
 
@@ -76,9 +74,8 @@
 
 
 
+/* MENU */
 
-
-/* Menu */
 
 .menu{
 
@@ -87,6 +84,25 @@
     margin-top:20px;
 
     flex:1;
+
+    overflow-y:auto;
+
+}
+
+
+
+.menu::-webkit-scrollbar{
+
+    width:5px;
+
+}
+
+
+.menu::-webkit-scrollbar-thumb{
+
+    background:#475569;
+
+    border-radius:10px;
 
 }
 
@@ -101,9 +117,7 @@
 
 
 
-
 .menu a{
-
 
     color:white;
 
@@ -119,9 +133,9 @@
 
     font-size:16px;
 
-    transition:0.3s;
-
     border-left:4px solid transparent;
+
+    transition:.3s;
 
 }
 
@@ -132,6 +146,7 @@
     background:#334155;
 
 }
+
 
 
 
@@ -148,13 +163,10 @@
 
 
 
-
-
-/* Logout */
+/* LOGOUT */
 
 
 .logout-btn{
-
 
     margin:20px;
 
@@ -172,17 +184,13 @@
 
     font-size:16px;
 
-
     display:flex;
-
-    align-items:center;
 
     justify-content:center;
 
+    align-items:center;
+
     gap:10px;
-
-
-    transition:0.3s;
 
 }
 
@@ -200,23 +208,22 @@
 
 
 
-/* Mobile close */
+/* CLOSE BUTTON */
 
 
 .mobile-close{
 
     display:none;
 
-    text-align:right;
-
     padding:15px;
+
+    text-align:right;
 
 }
 
 
 
 .mobile-close button{
-
 
     background:none;
 
@@ -226,9 +233,6 @@
 
     font-size:22px;
 
-    cursor:pointer;
-
-
 }
 
 
@@ -237,8 +241,7 @@
 
 
 
-
-/* MOBILE RESPONSIVE */
+/* MOBILE */
 
 
 @media(max-width:768px){
@@ -247,22 +250,15 @@
 
 .sidebar{
 
-
     transform:translateX(-100%);
-
-    width:260px;
-
 
 }
 
 
 
-
 .sidebar.mobile-open{
 
-
     transform:translateX(0);
-
 
 }
 
@@ -271,9 +267,7 @@
 
 .mobile-close{
 
-
     display:block;
-
 
 }
 
@@ -282,9 +276,7 @@
 
 .logo h2{
 
-
-    font-size:22px;
-
+    font-size:21px;
 
 }
 
@@ -292,20 +284,7 @@
 
 .menu a{
 
-
-    padding:15px 20px;
-
-
-}
-
-
-
-
-.logout-btn{
-
-
-    margin:15px;
-
+    padding:14px 20px;
 
 }
 

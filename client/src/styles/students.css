@@ -1,40 +1,87 @@
 .students-page{
+
     padding:20px;
+
+    width:100%;
+
 }
+
+
+
+/* ================= HEADER ================= */
 
 
 .students-header{
 
     display:flex;
+
     justify-content:space-between;
+
     align-items:center;
+
     margin-bottom:20px;
+
+    gap:15px;
 
 }
 
 
+
+.students-header h1{
+
+    font-size:32px;
+
+}
+
+
+
 .students-header button{
 
+
     background:#0ea5e9;
+
     color:white;
+
     border:none;
+
     padding:12px 20px;
+
     border-radius:8px;
+
     cursor:pointer;
 
 }
 
 
 
+
+
+
+
+/* ================= FORM ================= */
+
+
 .student-form{
 
+
     background:white;
+
     padding:20px;
+
     border-radius:12px;
+
+
     display:grid;
+
+
     grid-template-columns:repeat(3,1fr);
+
+
     gap:15px;
+
+
     margin-bottom:20px;
+
 
 }
 
@@ -43,9 +90,18 @@
 .student-form input,
 .student-form select{
 
+
+    width:100%;
+
+
     padding:12px;
+
+
     border:1px solid #ddd;
+
+
     border-radius:8px;
+
 
 }
 
@@ -53,35 +109,346 @@
 
 .student-form button{
 
+
     padding:12px;
+
     border:none;
+
     background:#16a34a;
+
     color:white;
+
     border-radius:8px;
+
     cursor:pointer;
+
 
 }
 
+
+
+
+
+
+
+/* ================= SEARCH ================= */
 
 
 .student-search{
 
+
     width:100%;
+
+
     padding:14px;
+
+
     margin-bottom:20px;
+
+
     border-radius:8px;
+
+
     border:1px solid #ddd;
 
+
 }
+
+
+
+
+
+
+
+/* ================= GRID ================= */
+
+
+.student-grid{
+
+
+    display:grid;
+
+
+    grid-template-columns:repeat(3,1fr);
+
+
+    gap:20px;
+
+
+}
+
+
+
+
+
+
+
+/* ================= CARD ================= */
+
+
+.student-card{
+
+
+    background:white;
+
+
+    padding:20px;
+
+
+    border-radius:15px;
+
+
+    box-shadow:
+
+    0 5px 15px rgba(0,0,0,0.1);
+
+
+}
+
+
+
+
+.student-card h2{
+
+
+    color:#0f172a;
+
+
+    margin-bottom:10px;
+
+
+}
+
+
+
+.student-card p{
+
+
+    margin:8px 0;
+
+
+}
+
+
+
+
+
+/* ================= BUTTON ================= */
+
+
+.card-buttons{
+
+
+    display:flex;
+
+
+    gap:10px;
+
+
+    margin-top:15px;
+
+
+}
+
+
+
+.card-buttons button{
+
+
+    flex:1;
+
+
+    padding:8px 15px;
+
+
+    border:none;
+
+
+    border-radius:6px;
+
+
+    cursor:pointer;
+
+
+    background:#2563eb;
+
+
+    color:white;
+
+
+}
+
+
+
+.card-buttons .delete{
+
+
+    background:#dc2626;
+
+
+}
+
+
+
+
+
+
+
+/* ================= TABLET ================= */
+
+
+@media(max-width:1200px){
+
+
+
+.student-grid{
+
+
+    grid-template-columns:repeat(2,1fr);
+
+
+}
+
+
+
+.student-form{
+
+
+    grid-template-columns:repeat(2,1fr);
+
+
+}
+
+
+}
+
+
+
+
+
+
+
+/* ================= MOBILE ================= */
+
+
+@media(max-width:768px){
+
+
+
+.students-page{
+
+
+    padding:15px;
+
+
+}
+
+
+
+
+.students-header{
+
+
+    flex-direction:column;
+
+
+    align-items:stretch;
+
+
+}
+
+
+
+
+.students-header h1{
+
+
+    font-size:24px;
+
+
+}
+
+
+
+
+.students-header button{
+
+
+    width:100%;
+
+
+}
+
+
+
+
+.student-form{
+
+
+    grid-template-columns:1fr;
+
+
+    padding:15px;
+
+
+}
+
 
 
 
 
 .student-grid{
 
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:20px;
+
+    grid-template-columns:1fr;
+
+
+}
+
+
+
+
+.card-buttons{
+
+
+    flex-direction:column;
+
+
+}
+
+
+
+
+.card-buttons button{
+
+
+    width:100%;
+
+
+}
+
+
+
+}
+
+
+
+
+
+
+
+/* ================= SMALL MOBILE ================= */
+
+
+@media(max-width:480px){
+
+
+
+.students-page{
+
+
+    padding:10px;
+
 
 }
 
@@ -89,10 +456,43 @@
 
 .student-card{
 
+
+    padding:15px;
+
+
+}
+
+
+
+.student-card h2{
+
+
+    font-size:20px;
+
+
+}
+
+
+}.student-card{
+
     background:white;
+
     padding:20px;
-    border-radius:15px;
-    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+
+    border-radius:16px;
+
+    box-shadow:
+    0 5px 15px rgba(0,0,0,0.08);
+
+    transition:.3s;
+
+}
+
+
+
+.student-card:hover{
+
+    transform:translateY(-5px);
 
 }
 
@@ -102,22 +502,40 @@
 
     color:#0f172a;
 
+    margin-bottom:15px;
+
 }
+
 
 
 .student-card p{
 
-    margin:8px 0;
+    color:#475569;
+
+    display:flex;
+
+    justify-content:space-between;
 
 }
+
+
+
+.student-card h3{
+
+    margin-top:15px;
+
+    color:#2563eb;
+
+}
+
 
 
 
 .card-buttons{
 
     display:flex;
+
     gap:10px;
-    margin-top:15px;
 
 }
 
@@ -125,12 +543,20 @@
 
 .card-buttons button{
 
-    padding:8px 15px;
-    border:none;
-    border-radius:6px;
-    cursor:pointer;
+    flex:1;
+
+    padding:10px;
+
+    border-radius:8px;
+
+}
+
+
+
+
+.card-buttons button:first-child{
+
     background:#2563eb;
-    color:white;
 
 }
 
@@ -144,20 +570,8 @@
 
 
 
+.card-buttons button:hover{
 
-@media(max-width:900px){
-
-.student-grid{
-
-    grid-template-columns:1fr;
-
-}
-
-
-.student-form{
-
-    grid-template-columns:1fr;
-
-}
+    opacity:.85;
 
 }

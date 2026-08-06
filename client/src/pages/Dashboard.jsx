@@ -143,7 +143,8 @@ useEffect(() => {
 
         </div>
 
-        <div className="recent-box">
+        {/* <div className="recent-box"> */}
+<div className="table-wrapper">
 
           <h2>Recent Summary</h2>
 
