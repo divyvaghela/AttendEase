@@ -16,6 +16,7 @@ import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
 import ManageUsers from "./pages/ManageUsers";
 import NotFound from "./pages/NotFound";
+import Receipt from "./pages/Receipt";
 
 
 // Components
@@ -125,6 +126,10 @@ function App() {
                     }
                 />
 
+<Route
+ path="/receipt/:id"
+ element={<Receipt/>}
+/>
                 {/* ADMIN ONLY */}
 
                 <Route

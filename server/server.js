@@ -11,7 +11,6 @@ const attendanceRoutes = require("./routes/attendanceRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
 const feeRoutes = require("./routes/feeRoutes");
 const holidayRoutes = require("./routes/holidayRoutes");
-
 // Middleware
 const { protect } = require("./middleware/authMiddleware");
 

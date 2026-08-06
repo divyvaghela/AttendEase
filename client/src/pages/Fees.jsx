@@ -13,7 +13,7 @@ function Fees(){
     const [fees,setFees] = useState([]);
 
     const [paymentDate,setPaymentDate] = useState("");
-
+    const [feeStatus,setFeeStatus] = useState([]);
 
 
 
@@ -80,7 +80,9 @@ function Fees(){
 
         getStudents();
 
-        getFees();
+getFees();
+getFeeStatus();
+
 
 
     },[]);
@@ -91,7 +93,33 @@ function Fees(){
 
 
 
+const getFeeStatus = async()=>{
 
+    try{
+
+        const res =
+        await api.get("/fees/status");
+
+
+        console.log(
+            "FEE STATUS API:",
+            res.data
+        );
+
+
+        setFeeStatus(
+            res.data.students || []
+        );
+
+
+    }
+    catch(error){
+
+        console.log(error);
+
+    }
+
+};
 
     // ================= COLLECT FEE =================
 
@@ -115,15 +143,15 @@ function Fees(){
         try{
 
 
-            const month = 
-            new Date(paymentDate)
-            .toLocaleString(
-                "default",
-                {
-                    month:"long",
-                    year:"numeric"
-                }
-            );
+            // const month = 
+            // new Date(paymentDate)
+            // .toLocaleString(
+            //     "default",
+            //     {
+            //         month:"long",
+            //         year:"numeric"
+            //     }
+            // );
 
 
 
@@ -144,8 +172,8 @@ await api.post(
 
 
 
-            getFees();
-
+getFees();
+getFeeStatus();
 
 
         }
@@ -164,10 +192,235 @@ catch(error){
     };
 
 
+const checkStudentStatus = (studentId)=>{
 
 
+    const data = feeStatus.find(
+
+        (item)=>
+        item.studentId === studentId
+
+    );
 
 
+    if(data){
+
+        return {
+
+            status:data.status,
+
+            color:
+            data.status === "Paid"
+            ?
+            "green"
+            :
+            "red"
+
+        };
+
+    }
+
+
+    return {
+
+        status:"Pending",
+
+        color:"red"
+
+    };
+
+
+};
+
+const printReceipt = (fee) => {
+
+    const receipt = `
+    <html>
+
+    <head>
+
+    <title>Fee Receipt</title>
+
+    <style>
+
+    body{
+
+        font-family:Arial;
+
+        padding:30px;
+
+    }
+
+    h2{
+
+        text-align:center;
+
+    }
+
+    table{
+
+        width:100%;
+
+        border-collapse:collapse;
+
+        margin-top:20px;
+
+    }
+
+    td{
+
+        border:1px solid #000;
+
+        padding:10px;
+
+    }
+
+    .footer{
+
+        margin-top:60px;
+
+        text-align:right;
+
+    }
+
+    </style>
+
+    </head>
+
+    <body>
+
+    <h2>
+    Shree Home Tuition Classes
+    </h2>
+
+    <h3 style="text-align:center;">
+    Fee Receipt
+    </h3>
+
+    <table>
+
+    <tr>
+
+    <td>
+    Receipt No
+    </td>
+
+    <td>
+    ${fee.receiptNo}
+    </td>
+
+    </tr>
+
+    <tr>
+
+    <td>
+    Student
+    </td>
+
+    <td>
+    ${fee.student?.name}
+    </td>
+
+    </tr>
+
+    <tr>
+
+    <td>
+    Roll No
+    </td>
+
+    <td>
+    ${fee.student?.rollNo}
+    </td>
+
+    </tr>
+
+    <tr>
+
+    <td>
+    Course
+    </td>
+
+    <td>
+    ${fee.student?.course}
+    </td>
+
+    </tr>
+
+    <tr>
+
+    <td>
+    Month
+    </td>
+
+    <td>
+    ${fee.month}
+    </td>
+
+    </tr>
+
+    <tr>
+
+    <td>
+    Amount
+    </td>
+
+    <td>
+    ₹ ${fee.amount}
+    </td>
+
+    </tr>
+
+    <tr>
+
+    <td>
+    Payment Date
+    </td>
+
+    <td>
+    ${new Date(fee.paymentDate).toLocaleDateString()}
+    </td>
+
+    </tr>
+
+    <tr>
+
+    <td>
+    Status
+    </td>
+
+    <td>
+    ${fee.status}
+    </td>
+
+    </tr>
+
+    </table>
+
+    <div class="footer">
+
+    Authorized Signature
+
+    <br><br>
+
+    ___________________
+
+    </div>
+
+    </body>
+
+    </html>
+    `;
+
+    const win = window.open("", "_blank");
+
+    win.document.write(receipt);
+
+    win.document.close();
+
+    win.print();
+
+};
 
 
 
@@ -232,71 +485,66 @@ Students
 
 
 {
+students.map((student) => {
 
-students.map((student)=>(
+    const status = checkStudentStatus(student._id);
 
+    return (
 
-<div
+        <div
+            className="fee-card"
+            key={student._id}
+        >
 
-className="fee-card"
+            <h3>{student.name}</h3>
 
-key={student._id}
+            <p>
+                Roll No: {student.rollNo}
+            </p>
 
->
-
-
-<h3>
-
-{student.name}
-
-</h3>
-
-
-
-<p>
-
-Roll No:
-
-{student.rollNo}
-
-</p>
-
-
+            <p>
+                Monthly Fee:
+                <b> ₹ {student.monthlyFee}</b>
+            </p>
 
 <p>
-
-Monthly Fee:
-
-<b>
-₹ {student.monthlyFee}
-</b>
-
+    Fee Status:
+    <span
+        className={
+            status.status === "Paid"
+                ? "paid"
+                : status.status === "Pending"
+                ? "pending"
+                : "not-started"
+        }
+    >
+        {status.status}
+    </span>
 </p>
 
+            <button
+                disabled={
+                    student.monthlyFee <= 0 ||
+                    status.status === "Paid"
+                }
+                onClick={() => collectFee(student)}
+            >
+                {
+                    student.monthlyFee <= 0
+                        ? "Set Fee First"
+                        : status.status === "Paid"
+                        ? "Already Paid"
+                        : "Collect Fee"
+                }
+            </button>
 
+        </div>
 
+    );
 
-<button
-
-onClick={()=>
-collectFee(student)
+})
 }
 
->
-
-Collect Fee
-
-</button>
-
-
-
-</div>
-
-
-))
-
-
-}
 
 
 
@@ -324,6 +572,7 @@ Fee History
 <thead>
 
 <tr>
+<th>Receipt</th>
 
 <th>
 Student
@@ -367,7 +616,7 @@ fees.map((fee)=>(
 
 
 <tr key={fee._id}>
-
+<td>{fee.receiptNo || "-"}</td>    
 
 <td>
 
@@ -376,6 +625,7 @@ fee.student?.name
 }
 
 </td>
+
 
 
 <td>
@@ -410,12 +660,21 @@ fee.paymentDate
 <td>
 
 <span className="paid">
-
-{
-fee.status
-}
-
+{fee.status}
 </span>
+
+<br/>
+
+<button
+onClick={()=>
+window.open(
+`/receipt/${fee._id}`,
+"_blank"
+)
+}
+>
+View Receipt
+</button>
 
 </td>
 

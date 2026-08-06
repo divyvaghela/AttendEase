@@ -7,7 +7,10 @@ const {
     getFees,
     getStudentFees,
     updateFee,
-    deleteFee
+    deleteFee,
+    getCurrentMonthFeeStatus,
+     getFeeReceipt
+
 } = require("../controllers/feeController");
 
 
@@ -75,7 +78,17 @@ router.delete(
     adminOnly,
     deleteFee
 );
+router.get(
+    "/status",
+    protect,
+    adminOnly,
+    getCurrentMonthFeeStatus
+);
 
-
+router.get(
+    "/receipt/:id",
+    protect,
+    getFeeReceipt
+);
 
 module.exports = router;

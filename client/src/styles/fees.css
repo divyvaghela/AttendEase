@@ -111,4 +111,17 @@ color:green;
 
 font-weight:bold;
 
+}.paid{
+    color:#16a34a;
+    font-weight:600;
+}
+
+.pending{
+    color:#dc2626;
+    font-weight:600;
+}
+
+.not-started{
+    color:#2563eb;
+    font-weight:600;
 }

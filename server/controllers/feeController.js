@@ -37,22 +37,67 @@ const addFee = async(req,res)=>{
             });
 
         }
+// Check Monthly Fee Assigned
 
+if(studentData.monthlyFee <= 0){
+
+    return res.status(400).json({
+
+        success:false,
+
+        message:"Monthly fee not assigned to this student"
+
+    });
+
+}
 
 
 
         // Check already paid for same month
 
-        const month =
-        new Date(paymentDate)
-        .toLocaleString(
-            "default",
-            {
-                month:"long",
-                year:"numeric"
-            }
-        );
+const startDate =
+new Date(studentData.feeStartDate);
 
+
+const payDate =
+new Date(paymentDate);
+
+
+// Calculate fee month
+
+let feeMonth =
+new Date(
+    payDate.getFullYear(),
+    payDate.getMonth(),
+    1
+);
+
+
+// If payment is before fee date of month,
+// consider previous month
+
+if(
+payDate.getDate() < startDate.getDate()
+){
+
+    feeMonth =
+    new Date(
+        payDate.getFullYear(),
+        payDate.getMonth()-1,
+        1
+    );
+
+}
+
+
+const month =
+feeMonth.toLocaleString(
+"default",
+{
+    month:"long",
+    year:"numeric"
+}
+);
 
 
         const existingFee =
@@ -441,11 +486,239 @@ const deleteFee = async(req,res)=>{
 
 };
 
+// Get Student Fee Status Based On Fee Start Date
+
+const getCurrentMonthFeeStatus = async(req,res)=>{
+
+    try{
+
+
+        const students = await Student.find();
+
+
+
+        const today = new Date();
+
+
+
+        const data = await Promise.all(
+
+            students.map(async(student)=>{
+
+
+                const startDate =
+                new Date(student.feeStartDate);
+
+
+
+                // Current month from today
+
+                const currentMonth =
+                new Date(
+                    today.getFullYear(),
+                    today.getMonth(),
+                    1
+                );
+
+
+
+                // Student fee not started yet
+
+                if(startDate > currentMonth){
+
+
+                    return {
+
+                        studentId:student._id,
+
+                        name:student.name,
+
+                        rollNo:student.rollNo,
+
+                        monthlyFee:student.monthlyFee,
+
+                        status:"Not Started",
+
+                        dueAmount:0,
+
+                        month:"-"
+
+                    };
+
+
+                }
+
+
+
+
+                const month =
+                currentMonth.toLocaleString(
+                    "default",
+                    {
+                        month:"long",
+                        year:"numeric"
+                    }
+                );
+
+
+
+
+                const fee =
+                await Fee.findOne({
+
+                    student:student._id,
+
+                    month
+
+                });
 
 
 
 
 
+                return {
+
+
+                    studentId:student._id,
+
+
+                    name:student.name,
+
+
+                    rollNo:student.rollNo,
+
+
+                    monthlyFee:student.monthlyFee,
+
+
+
+                    status:
+
+                    fee
+
+                    ?
+
+                    "Paid"
+
+                    :
+
+                    "Pending",
+
+
+
+                    dueAmount:
+
+                    fee
+
+                    ?
+
+                    0
+
+                    :
+
+                    student.monthlyFee,
+
+
+
+                    receiptNo:
+
+                    fee?.receiptNo || null,
+
+
+
+                    month
+
+
+
+                };
+
+
+            })
+
+        );
+
+
+
+
+
+        res.json({
+
+            success:true,
+
+            students:data
+
+        });
+
+
+
+    }
+    catch(error){
+
+
+        res.status(500).json({
+
+            success:false,
+
+            message:error.message
+
+        });
+
+
+    }
+
+
+};
+
+// ===============================
+// Get Single Fee Receipt
+// ===============================
+
+const getFeeReceipt = async(req,res)=>{
+
+    try{
+
+        const fee = await Fee.findById(
+            req.params.id
+        )
+        .populate(
+            "student",
+            "name rollNo course semester"
+        );
+
+
+        if(!fee){
+
+            return res.status(404).json({
+
+                success:false,
+                message:"Receipt not found"
+
+            });
+
+        }
+
+
+        res.json({
+
+            success:true,
+            fee
+
+        });
+
+
+    }
+    catch(error){
+
+        res.status(500).json({
+
+            success:false,
+            message:error.message
+
+        });
+
+    }
+
+};
 
 
 
@@ -459,6 +732,8 @@ module.exports = {
     getStudentFees,
 
     updateFee,
+    getCurrentMonthFeeStatus,
+    getFeeReceipt,
 
     deleteFee
 

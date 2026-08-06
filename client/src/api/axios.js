@@ -1,14 +1,61 @@
+// import axios from "axios";
+
+
+// const api = axios.create({
+
+//    baseURL:"https://attendease-server.onrender.com/api",
+//     //baseURL:"http://localhost:5000/api"
+
+// });
+
+
+
+
+
+// api.interceptors.request.use(
+
+// (config)=>{
+
+
+//     const token =
+//     localStorage.getItem("token");
+
+
+
+//     if(token){
+
+//         config.headers.Authorization =
+//         `Bearer ${token}`;
+
+//     }
+
+
+//     return config;
+
+
+// }
+
+
+// );
+
+
+
+// export default api;
+
+
 import axios from "axios";
 
 
 const api = axios.create({
 
-   baseURL:"https://attendease-server.onrender.com/api",
-    //baseURL:"http://localhost:5000/api"
+    baseURL:
+    import.meta.env.MODE === "development"
+    ?
+    "http://localhost:5000/api"
+    :
+    "https://attendease-server.onrender.com/api"
 
 });
-
-
 
 
 
@@ -16,10 +63,7 @@ api.interceptors.request.use(
 
 (config)=>{
 
-
-    const token =
-    localStorage.getItem("token");
-
+    const token = localStorage.getItem("token");
 
 
     if(token){
@@ -32,12 +76,7 @@ api.interceptors.request.use(
 
     return config;
 
-
-}
-
-
-);
-
+});
 
 
 export default api;

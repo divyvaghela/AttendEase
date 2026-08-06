@@ -1,0 +1,126 @@
+.receipt-container{
+
+    display:flex;
+
+    justify-content:center;
+
+    padding:40px;
+
+}
+
+
+.receipt-box{
+
+
+    width:500px;
+
+    border:2px solid #333;
+
+    padding:30px;
+
+    border-radius:10px;
+
+    background:white;
+
+}
+
+
+
+.receipt-box h1{
+
+    text-align:center;
+
+    font-size:28px;
+
+}
+
+
+
+.subtitle{
+
+    text-align:center;
+
+    color:#555;
+
+}
+
+
+
+.receipt-box h2{
+
+    text-align:center;
+
+    margin:20px 0;
+
+}
+
+
+
+.receipt-info{
+
+    display:flex;
+
+    justify-content:space-between;
+
+}
+
+
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    margin-top:20px;
+
+}
+
+
+
+td{
+
+    border:1px solid #aaa;
+
+    padding:12px;
+
+}
+
+
+
+.signature{
+
+    text-align:right;
+
+    margin-top:50px;
+
+}
+
+
+
+button{
+
+    margin-top:30px;
+
+    padding:10px 20px;
+
+    cursor:pointer;
+
+}
+
+
+@media print{
+
+button{
+
+    display:none;
+
+}
+
+.receipt-container{
+
+    padding:0;
+
+}
+
+}
