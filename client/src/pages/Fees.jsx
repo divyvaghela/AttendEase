@@ -668,7 +668,7 @@ fee.paymentDate
 <button
 onClick={()=>
 window.open(
-`/receipt/${fee._id}`,
+window.location.origin + `/receipt/${fee._id}`,
 "_blank"
 )
 }

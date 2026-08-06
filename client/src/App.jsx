@@ -84,14 +84,14 @@ function App() {
 
                 {/* FEES */}
 
-                <Route
+                {/* <Route
                     path="/fees"
                     element={
                         <ProtectedRoute permission="fees">
                             <Fees />
                         </ProtectedRoute>
                     }
-                />
+                /> */}
 
                 {/* HOLIDAYS */}
 
@@ -128,7 +128,11 @@ function App() {
 
 <Route
  path="/receipt/:id"
- element={<Receipt/>}
+ element={
+    <ProtectedRoute permission="fees">
+        <Receipt />
+    </ProtectedRoute>
+ }
 />
                 {/* ADMIN ONLY */}
 
